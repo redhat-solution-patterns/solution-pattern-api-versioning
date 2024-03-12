@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Solution Pattern: Manage and Secure APIs with an API First Approach :: API Versioning</title>
+    <link rel="canonical" href="https://redhat-solution-patterns.github.io/solution-patterns/api-versioning/02-architecture.html">
+    <link rel="prev" href="index.html">
+    <link rel="next" href="03-demo.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9TW8CJFT3N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9TW8CJFT3N');
+</script>
+<!-- Google tag (gtag.js) -->
+
+<header class="header">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+      const urlParams = new URLSearchParams(window.location.search);
+      const subdomain = urlParams.get('SUBDOMAIN'); 
+      if (subdomain) {
+        showUserId( subdomain);
+      }
+      else {
+        showUserIdForm(subdomain);
+      }
+    } );
+
+
+    function showUserId( subdomain) {
+      document.getElementById('navbar-form-empty').style.display = "none";
+      document.getElementById('navbar-form-filled').style.display = "flex";
+      document.getElementById('subdomainDisplay').textContent = "Subdomain : " + subdomain; 
+    }
+
+    function showUserIdForm( subdomain ) {
+      document.getElementById('navbar-form-empty').style.display = "flex";
+      document.getElementById('navbar-form-filled').style.display = "none";
+      document.getElementById('subdomain').value = subdomain; 
+
+    }
+
+    function goWithUserId() {
+      elSubdomainInput = document.getElementById('subdomain');
+      window.location.search = ('&SUBDOMAIN=' + elSubdomainInput.value);
+    }
+
+    function recycle() {
+      document.getElementById('subdomain').value='';
+      window.location.search = ('');
+    }
+
+
+  </script>
+  <nav class="navbar">
+   <div class="navbar-brand">
+      <a class="navbar-item" style="font-size: 20px; color: white" href="https://redhat-solution-patterns.github.io/solution-patterns">
+        <img src="../_/img/logo.png" height="35px" alt="Solution Patterns">&nbsp; API Versioning</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+      </button>
+      
+    </div>
+    <div class="navbar-item" ><span class="navbar-text" style="color: white; margin-left: 1rem; margin-right: 1rem;">|</span></div>
+    
+    <div class="navbar-item has-dropdown is-hoverable" >
+      <a class="navbar-link" href="#" style="color: white">Red Hat Patterns</a>
+      <div class="navbar-dropdown">
+        <a class="navbar-item" href="https://www.redhat.com/architect/portfolio/" target="_blank">Portfolio Architecture&nbsp; </a>
+        <a class="navbar-item" href="https://redhat-solution-patterns.github.io/solution-patterns/patterns.html" target="_blank">Solution Patterns </a>
+        <a class="navbar-item" href="https://validatedpatterns.io/" target="_blank">Validated Patterns&nbsp;</a>
+
+      </div>
+    </div>
+    <div class="navbar-item has-dropdown is-hoverable" >
+      <a class="navbar-link" href="#" style="color: white">Resources</a>
+      <div class="navbar-dropdown">
+        <a class="navbar-item" target="_blank" href="https://www.redhat.com/en/products/application-foundations">Red Hat Application Services</a>
+        <a class="navbar-item" target="_blank" href="https://developers.redhat.com/app-dev-platform">App Dev Platform</a>
+      </div>
+    </div>
+
+    <div class="navbar-item" ><span class="navbar-text" style="color: white; margin-left: 1rem; margin-right: 1rem;">|</span></div>
+
+
+    
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        
+
+
+        <div class="navbar-item" id="navbar-form-empty">
+          <span class="navbar-text" style="margin-left: 2rem;">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i style="color: orange;"
+              class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+            Your Workshop Environment
+
+          <form action="javascript:void(0);" onsu>
+            <input size="50" id="subdomain" type="text" placeholder="Subdomain">
+            <button type="hidden" onclick="goWithUserId();">Set</button>
+          </form>
+        </div>
+        
+        <div class="navbar-item" id="navbar-form-filled" style="display: none;">
+          <span class="navbar-text" style="margin-left: 2rem;">
+          <span class="navbar-text " style="margin-left: 1rem; margin-right: 1rem; float:left">
+            &nbsp;Your Workshop Environment <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i alt="Clear details" title="Clear details" onclick="recycle();" style="color: green;" class="fa fa-recycle" aria-hidden="true"></i>
+
+          <br>
+          <span id="subdomainDisplay"></span>
+        </div>
+
+        
+        </span>
+
+    </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="api-versioning" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">API Versioning</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">1. Home page</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html#use-cases">1.1 Use cases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html#_the_story_behind_this_solution_pattern">1.2 The story behind this solution pattern</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html#_the_solution">1.3 The solution</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-architecture.html">2. Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#tech_stack">2.1. Technology stack</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#in_depth">2.2. An in-depth look at the solution&#8217;s architecture</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#more_tech">2.3. More about the technology stack</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-demo.html">3. See the Solution in Action</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03-demo.html#_demonstration">3.1. Demonstration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-demo.html#_run_the_demonstration">3.2. Run this demonstration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="03-demo.html#_before_getting_started">3.3. Pre-requisites</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="03-demo.html#_installing_the_demo">3.4. Installing the demo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="03-demo.html#_walkthrough_guide">3.5. Walkthrough guide</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#04-workshop.adoc">4. Workshop</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#04-workshop.adoc#_installing_the_workshop_environment">4.1. Installing the workshop environment</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#04-workshop.adoc#_before_getting_started">4.2. Pre-requisites</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#04-workshop.adoc#_installing_the_environment">4.3. Installing the environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#04-workshop.adoc#deliver_wksp">4.4. Delivering the workshop</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="#developer-resources.adoc">5. Developer Resources</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://redhat-solution-patterns.github.io/solution-patterns/patterns.html" target="_blank" rel="noopener">Explore Red Hat Solution Patterns</a></span>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">API Versioning</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">API Versioning</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">API Versioning</a></li>
+    <li><a href="02-architecture.html">2. Architecture</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/redhat-solution-patterns/solution-pattern-api-versioning/edit/main/documentation/modules/ROOT/pages/02-architecture.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Solution Pattern: Manage and Secure APIs with an API First Approach</h1>
+<h1 id="_architecture" class="sect0"><a class="anchor" href="#_architecture"></a><a class="link" href="#_architecture">Architecture</a></h1>
+<div class="sect1">
+<h2 id="_common_challenges"><a class="anchor" href="#_common_challenges"></a><a class="link" href="#_common_challenges">1. Common Challenges</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Introducing changes in APIs has an impact across different personas.</p>
+</div>
+<div class="paragraph">
+<p></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: #E7F3F4;"><div class="content"><div class="paragraph">
+<p>As an <strong>API Provider</strong></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top" style="background-color: #E7F3F4;"><div class="content"><div class="paragraph">
+<p>As an <strong>API Service Developer</strong></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top" style="background-color: #E7F3F4;"><div class="content"><div class="paragraph">
+<p>As an <strong>API Consumer</strong></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" style="background-color: #E7F3F4;"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Choose the right Versioning Strategy</p>
+</li>
+<li>
+<p>Communicate and Notify consumers of the API</p>
+</li>
+<li>
+<p>Ensure Backward Compatibility for consumers still using older API versions</p>
+</li>
+<li>
+<p>Encourage adoption of new API versions to help with sunsetting of older API versions</p>
+</li>
+<li>
+<p>Impact on API management configurations, API gateways, Staging and Production rollout</p>
+</li>
+<li>
+<p>Updates to Developer portal, documentation, release notes</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top" style="background-color: #E7F3F4;"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Plan for API versioning from the beginning</p>
+</li>
+<li>
+<p>Plan for different API versiong running side by side</p>
+</li>
+<li>
+<p>Handling of data and database</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top" style="background-color: #E7F3F4;"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Reduce tech debt by keeping up with changes to API</p>
+</li>
+<li>
+<p>Be alert to notifications from API providers</p>
+</li>
+<li>
+<p>Perform Impact assessment (breaking changes/non-breaking changes)</p>
+</li>
+<li>
+<p>Roll over to consume new API version</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tech_stack"><a class="anchor" href="#tech_stack"></a><a class="link" href="#tech_stack">2. Technology Stack</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://developers.redhat.com/products/3scale/overview" target="_blank" rel="noopener">Red Hat 3scale API Management</a></p>
+</li>
+<li>
+<p><a href="https://access.redhat.com/documentation/en-us/red_hat_build_of_apicurio_registry" target="_blank" rel="noopener">Red Hat build of Apicurio Registry</a></p>
+</li>
+<li>
+<p><a href="https://developers.redhat.com/products/quarkus/overview" target="_blank" rel="noopener">Red Hat build of Quarkus</a></p>
+</li>
+<li>
+<p><a href="https://studio.apicur.io/" target="_blank" rel="noopener">Apicurio API Designer</a></p>
+</li>
+<li>
+<p><a href="https://microcks.io/" target="_blank" rel="noopener">Microcks</a></p>
+</li>
+<li>
+<p><a href="https://quay.io/" target="_blank" rel="noopener">Quay</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="in_depth"><a class="anchor" href="#in_depth"></a><a class="link" href="#in_depth">3. An in-depth look at the solution&#8217;s architecture</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This Solution Pattern, as disussed earlier, involves the <strong>OrderPlacement API</strong> which is already in use and needs to undergo changes the following series of changes.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Change 1: A non-breaking change:</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Introduction of an optional field called <code>Delivery Instructions</code> which the customers can use to provide additional info to help with easy delivery</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Change 2: A breaking change:</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Moving away from First and Last names as separate fields, to a Full Name field to make it easy for consumers to place orders to represent different cultures and conventions.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_setting_the_stage"><a class="anchor" href="#_setting_the_stage"></a><a class="link" href="#_setting_the_stage">3.1. Setting the stage</a></h3>
+<div class="paragraph">
+<p>Let&#8217;s look at a quick refresher on 3scale API management and it&#8217;s various entities</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/3scale-primer.png" alt="3scale primer">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_when_to_version"><a class="anchor" href="#_when_to_version"></a><a class="link" href="#_when_to_version">3.2. When to version</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Don&#8217;t change API vesioning lightly. Consumers need a stable versions, and so don&#8217;t version often</p>
+</li>
+<li>
+<p>In fact, frequent versioning is seen as chaotic, disorganised</p>
+</li>
+<li>
+<p>Breaking changes should only be considered when there is no other alternative (security/compliance/law) or it becomes uneconomical</p>
+</li>
+<li>
+<p>It is good practice to consider a predicatable versioning of APIs (e.g. new versions every 3 months)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_version"><a class="anchor" href="#_how_to_version"></a><a class="link" href="#_how_to_version">3.3. How to version</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Follow <a href="https://semver.org/" target="_blank" rel="noopener">Semantic versioning</a> (semver) to ensure standardisation<br>
+The extent of changes to an API (or sofware for that matter) drives the versioning by assigning either unique unique version numbers in the form X.Y.Z.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/sem-versioning.png" alt="sem versioning" width="60%">
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><a href="https://semver.org/" class="bare">https://semver.org/</a> provides fantastic guidance on dos and dont of versioning and is highly recommended read.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_different_api_versioning_strategies"><a class="anchor" href="#_different_api_versioning_strategies"></a><a class="link" href="#_different_api_versioning_strategies">3.4. Different API Versioning Strategies</a></h3>
+<div class="paragraph">
+<p>Here are some common types of API versioning:<br>
+Note: These strategies apply when a new API version is applied to the same API Product to handle different versions</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>URL Versioning</strong>: Include the API version as part of the URI</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Format:
+api.globex.com/v1/OrderPlacement
+api.globex.com/v2/OrderPlacement</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Endpoint versioning</strong>: Different endpoint for each API version</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Format:
+api.globex.com/orderplacement_v1
+api.globex.com/orderplacement_v2</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Custom header versioning</strong>: Use a header (that is, "x-api-version") to specify the version.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Format:
+Header: x-api-version v1
+Header: x-api-version v2</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>URL Versioning</code> is the most popular API versioning strategy.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_a_different_approach_to_api_versioning"><a class="anchor" href="#_a_different_approach_to_api_versioning"></a><a class="link" href="#_a_different_approach_to_api_versioning">3.4.1. A different approach to API versioning</a></h4>
+<div class="paragraph">
+<p>An alternate way to implement API versioning is to create a completely new API product for a new API version. Sometimes this could be the right way to go. With this approach - especially for breaking changes</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Consumers can intentionally start adopting a new API and do all the changes testing and rolling out a new version of their software</p>
+</li>
+<li>
+<p>API providers can easily understand how many consumers are still using a particular version without having to do a lot of details analytics</p>
+</li>
+<li>
+<p>Sunsetting an API product can be easier because there an entire API product can be archived after consumers migrate away to the newer version</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_when_to_choose_what"><a class="anchor" href="#_when_to_choose_what"></a><a class="link" href="#_when_to_choose_what">3.4.2. When to choose what</a></h4>
+<div class="paragraph">
+<p>The answer is, of couse, <em>it depends</em> :)</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_measure_and_manage_adoption"><a class="anchor" href="#_measure_and_manage_adoption"></a><a class="link" href="#_measure_and_manage_adoption">3.5. Measure and manage adoption</a></h3>
+<div class="paragraph">
+<p>There will be a point when a API versions or perhaps the API itself will need to be sunset. It is important to plan for this from get-go.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Track consumption of API versions to understand usage of APIs and versions. The API management platform should ba able to provide the necessary metrics to do this.</p>
+</li>
+<li>
+<p>Set clear predicatable guidelines on when consumers can expect new API versions.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>e.g. Patch versions every month; Minor or major versions every 3 monthss.</p>
+</li>
+<li>
+<p>Publish these policies and guidelines on the developer portal so that consumers can manage their development cycles</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Notfy consumers about new API versions being available; and more importanly notify consumers about adopting newer versions, and sunsetting of older versions. You will need to define frequency of how often to notify consumers depending on your business needs, Note that manintaing multiple versions is a burden on providers in having to maintain older versions is reduced and hopfully completely removed.</p>
+</li>
+<li>
+<p>Release notes in the Developer Portal should clearly articulate changes in each version, along with examples and a way to try out.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="more_tech"><a class="anchor" href="#more_tech"></a><a class="link" href="#more_tech">4. More about the Technology Stack</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_api_design_govern_and_mockup"><a class="anchor" href="#_api_design_govern_and_mockup"></a><a class="link" href="#_api_design_govern_and_mockup">4.1. API Design, Govern and Mockup</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>As part of the API-First approach, the first step, of course, is to design the APIs. API Designer is a tool to design your APIs used by various stakeholders  to define the API specs. The API are defined for the existing catalogue service as well.</p>
+</li>
+<li>
+<p>Once the API design is complete, the API versions can now published  in a schema registry. <a href="https://access.redhat.com/documentation/en-us/red_hat_build_of_apicurio_registry" target="_blank" rel="noopener">Red Hat build of Apicurio Registry</a> is a datastore for sharing standard event schemas and API designs across event-driven and API architectures.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>You can upload new artifacts, new versions,  view the metadata, download the specs, view documentation and view the content as well.</p>
+</li>
+<li>
+<p>Through Content rules one can validate new versions of the APIs against the existing specs to ensure validity and backward compatibility.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Microcks can be used to mock the APIs so that the various development teams can to develop their pieces of code even before the APIs are completely implemented</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These stages have been already discussed in the <a href="https://redhat-solution-patterns.github.io/solution-pattern-api-first" target="_blank" rel="noopener">Manage and Secure APIs with an API First Approach</a>. Please refer to this pattern to learn more about these stages.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="3scale"><a class="anchor" href="#3scale"></a><a class="link" href="#3scale">4.2. Red Hat 3scale API Management</a></h3>
+<div class="paragraph">
+<p>We use the managed <strong>Red Hat 3scale API Management</strong> platform here to publish, manage and secure the backend APIs.</p>
+</div>
+<div class="paragraph">
+<p>Each API can be configured to be secured using a number of ways. In this case, the APIs  are secured with an API key which should be passed through http request header. 3scale allows you to have various application plans. Developers can subscribe to those APIs and can access APIs through an assigned API key  securely.  You can monitor the APIs and also track usage</p>
+</div>
+<div class="paragraph">
+<p>As a developer, you would like to build functionality around the APIs. There is also a Development Portal  which is currently under, well, development. You can sign in as a developer here.  This developer  has already subscribed to the API and is given an API key which should be used in all API calls to ensure the calls are authenticated by the API management platform.</p>
+</div>
+<div class="paragraph">
+<p>The devportal allows viewing Live documentation as well, which is another view of the OpenAPI specs. Developers can try it out  to see what kind of responses they can get back. The developers can also view statistics for their account  in a graph format</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="source-code"><a class="anchor" href="#source-code"></a><a class="link" href="#source-code">4.3. GitOps and ArgoCD</a></h3>
+<div class="paragraph">
+<p>&lt;TBC&gt;</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="index.html" class="query-params-link">1. Home page</a></span>
+  <span class="next"><a href="03-demo.html" class="query-params-link">3. See the Solution in Action</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer" style="justify-content: center;">
+  <div>
+    <img src="./_images/red_hat_logo.png" height="40px" alt="Cloud Native Architecture Solution Patterns" href="https://redhat.com">
+  </div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

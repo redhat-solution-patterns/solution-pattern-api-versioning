@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Solution Pattern: Manage and Secure APIs with an API First Approach :: API Versioning</title>
+    <link rel="canonical" href="https://redhat-solution-patterns.github.io/solution-patterns/api-versioning/03-demo.html">
+    <link rel="prev" href="02-architecture.html">
+    <link rel="next" href="#04-workshop.adoc">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9TW8CJFT3N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9TW8CJFT3N');
+</script>
+<!-- Google tag (gtag.js) -->
+
+<header class="header">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+      const urlParams = new URLSearchParams(window.location.search);
+      const subdomain = urlParams.get('SUBDOMAIN'); 
+      if (subdomain) {
+        showUserId( subdomain);
+      }
+      else {
+        showUserIdForm(subdomain);
+      }
+    } );
+
+
+    function showUserId( subdomain) {
+      document.getElementById('navbar-form-empty').style.display = "none";
+      document.getElementById('navbar-form-filled').style.display = "flex";
+      document.getElementById('subdomainDisplay').textContent = "Subdomain : " + subdomain; 
+    }
+
+    function showUserIdForm( subdomain ) {
+      document.getElementById('navbar-form-empty').style.display = "flex";
+      document.getElementById('navbar-form-filled').style.display = "none";
+      document.getElementById('subdomain').value = subdomain; 
+
+    }
+
+    function goWithUserId() {
+      elSubdomainInput = document.getElementById('subdomain');
+      window.location.search = ('&SUBDOMAIN=' + elSubdomainInput.value);
+    }
+
+    function recycle() {
+      document.getElementById('subdomain').value='';
+      window.location.search = ('');
+    }
+
+
+  </script>
+  <nav class="navbar">
+   <div class="navbar-brand">
+      <a class="navbar-item" style="font-size: 20px; color: white" href="https://redhat-solution-patterns.github.io/solution-patterns">
+        <img src="../_/img/logo.png" height="35px" alt="Solution Patterns">&nbsp; API Versioning</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+      </button>
+      
+    </div>
+    <div class="navbar-item" ><span class="navbar-text" style="color: white; margin-left: 1rem; margin-right: 1rem;">|</span></div>
+    
+    <div class="navbar-item has-dropdown is-hoverable" >
+      <a class="navbar-link" href="#" style="color: white">Red Hat Patterns</a>
+      <div class="navbar-dropdown">
+        <a class="navbar-item" href="https://www.redhat.com/architect/portfolio/" target="_blank">Portfolio Architecture&nbsp; </a>
+        <a class="navbar-item" href="https://redhat-solution-patterns.github.io/solution-patterns/patterns.html" target="_blank">Solution Patterns </a>
+        <a class="navbar-item" href="https://validatedpatterns.io/" target="_blank">Validated Patterns&nbsp;</a>
+
+      </div>
+    </div>
+    <div class="navbar-item has-dropdown is-hoverable" >
+      <a class="navbar-link" href="#" style="color: white">Resources</a>
+      <div class="navbar-dropdown">
+        <a class="navbar-item" target="_blank" href="https://www.redhat.com/en/products/application-foundations">Red Hat Application Services</a>
+        <a class="navbar-item" target="_blank" href="https://developers.redhat.com/app-dev-platform">App Dev Platform</a>
+      </div>
+    </div>
+
+    <div class="navbar-item" ><span class="navbar-text" style="color: white; margin-left: 1rem; margin-right: 1rem;">|</span></div>
+
+
+    
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        
+
+
+        <div class="navbar-item" id="navbar-form-empty">
+          <span class="navbar-text" style="margin-left: 2rem;">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i style="color: orange;"
+              class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+            Your Workshop Environment
+
+          <form action="javascript:void(0);" onsu>
+            <input size="50" id="subdomain" type="text" placeholder="Subdomain">
+            <button type="hidden" onclick="goWithUserId();">Set</button>
+          </form>
+        </div>
+        
+        <div class="navbar-item" id="navbar-form-filled" style="display: none;">
+          <span class="navbar-text" style="margin-left: 2rem;">
+          <span class="navbar-text " style="margin-left: 1rem; margin-right: 1rem; float:left">
+            &nbsp;Your Workshop Environment <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i alt="Clear details" title="Clear details" onclick="recycle();" style="color: green;" class="fa fa-recycle" aria-hidden="true"></i>
+
+          <br>
+          <span id="subdomainDisplay"></span>
+        </div>
+
+        
+        </span>
+
+    </div>
+  </nav>
+</header><div class="body">
+<div class="nav-container" data-component="api-versioning" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">API Versioning</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="index.html">1. Home page</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html#use-cases">1.1 Use cases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html#_the_story_behind_this_solution_pattern">1.2 The story behind this solution pattern</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="index.html#_the_solution">1.3 The solution</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="02-architecture.html">2. Architecture</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-architecture.html#tech_stack">2.1. Technology stack</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-architecture.html#in_depth">2.2. An in-depth look at the solution&#8217;s architecture</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02-architecture.html#more_tech">2.3. More about the technology stack</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-demo.html">3. See the Solution in Action</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#_demonstration">3.1. Demonstration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#_run_the_demonstration">3.2. Run this demonstration</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#_before_getting_started">3.3. Pre-requisites</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#_installing_the_demo">3.4. Installing the demo</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#_walkthrough_guide">3.5. Walkthrough guide</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#04-workshop.adoc">4. Workshop</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="#04-workshop.adoc#_installing_the_workshop_environment">4.1. Installing the workshop environment</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#04-workshop.adoc#_before_getting_started">4.2. Pre-requisites</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#04-workshop.adoc#_installing_the_environment">4.3. Installing the environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#04-workshop.adoc#deliver_wksp">4.4. Delivering the workshop</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="#developer-resources.adoc">5. Developer Resources</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://redhat-solution-patterns.github.io/solution-patterns/patterns.html" target="_blank" rel="noopener">Explore Red Hat Solution Patterns</a></span>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">API Versioning</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">API Versioning</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">API Versioning</a></li>
+    <li><a href="03-demo.html">3. See the Solution in Action</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/redhat-solution-patterns/solution-pattern-api-versioning/edit/main/documentation/modules/ROOT/pages/03-demo.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Solution Pattern: Manage and Secure APIs with an API First Approach</h1>
+<h1 id="_see_the_solution_in_action" class="sect0"><a class="anchor" href="#_see_the_solution_in_action"></a><a class="link" href="#_see_the_solution_in_action">See the Solution in Action</a></h1>
+<div class="sect1">
+<h2 id="_setup_the_solution"><a class="anchor" href="#_setup_the_solution"></a><a class="link" href="#_setup_the_solution">1. Setup the solution</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To provision the demo you will perform the following steps - each of which are explained in detail in the next sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Gain access to Red Hat OpenShift. This solution pattern has been tested on <a href="https://docs.openshift.com/container-platform/4.15/welcome/index.html" target="_blank" rel="noopener">OpenShift 4.15</a></p>
+</li>
+<li>
+<p>Ensure you have the tools <code>oc</code> and <code>ansible</code> installed in your local environment such as your laptop</p>
+</li>
+<li>
+<p>Access the OpenShift cluster with cluster-admin privileges</p>
+</li>
+<li>
+<p>Log in to OpenShift with <code>cluster-admin</code> role via cli</p>
+</li>
+<li>
+<p>Run the Ansible playbook</p>
+</li>
+<li>
+<p>Run a  bunch of scripts to deploy the Solution Pattern in your OpenShift cluster</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_pre_requisites"><a class="anchor" href="#_pre_requisites"></a><a class="link" href="#_pre_requisites">1.1. Pre-requisites</a></h3>
+<div class="paragraph">
+<p>Here is the list of tools you need in your local enviroment so that you can use the automated installation.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.openshift.com/container-platform/4.15/cli_reference/openshift_cli/getting-started-cli.html" target="_blank" rel="noopener">OpenShift CLI (oc client)</a></p>
+</li>
+<li>
+<p><a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html" target="_blank" rel="noopener">Ansible CLI </a> with <a href="https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html" target="_blank" rel="noopener">Ansible kubernetes.core module</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To check if you have the cli tools, you can open your terminal and use following commands:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell script hljs" data-lang="shell script">oc version #openshift cli client
+ansible --version
+ansible-galaxy --version
+ansible-galaxy collection list #the list should include kubernetes.core</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you can&#8217;t see <code>kubernetes.core</code> collection listed, you can install it with <code>ansible-galaxy</code>:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell script hljs" data-lang="shell script">ansible-galaxy collection install kubernetes.core</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installing_the_demo"><a class="anchor" href="#_installing_the_demo"></a><a class="link" href="#_installing_the_demo">1.2. Installing the demo</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Login to your OpenShift cluster as cluster-admin (because a number of operators will need to be installed)</p>
+</li>
+<li>
+<p>Click on the username on the top right hand, and then click on <strong>Copy login command</strong>. This will open another tab and you will need to login again</p>
+</li>
+<li>
+<p>Click on <strong>Display token</strong> link, and copy the command under  <strong>Log in with this token</strong>. This will look like this</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc login --token=&lt;token&gt; --server=&lt;server&gt;</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Clone the ansible scripts as follows in an appropriate folder in your local environment</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell script hljs" data-lang="shell script">git clone https://github.com/rh-solution-pattern-api-versioning/globex-ansible</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s walk te. Ensure that the ansible playbook is deployed without errors</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell script hljs" data-lang="shell script">ansible-playbook playbook.yml</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>This is the output you get from the above ansible command:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>PLAY RECAP ****************************************************************************************
+localhost                  : ok=86   changed=17   unreachable=0    failed=0    skipped=31   rescued=0    ignored=0</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That&#8217;s it! You are set to try out this Solution Pattern! ｡◕‿◕｡</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_personalize_the_instructions"><a class="anchor" href="#_personalize_the_instructions"></a><a class="link" href="#_personalize_the_instructions">1.3. Personalize the instructions</a></h3>
+<div class="paragraph">
+<p>To personalize the rest of the instructions to your OpenShift enviroment,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>At the top-right of this page enter</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>subdomain</strong> to match your OpenShift cluster under the <strong>Your Workshop Environment</strong> section</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Press enter or click on the Set button</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/setup-instructions.png" alt="setup instructions">
+</div>
+</div>
+</li>
+<li>
+<p>The menubar and the rest of this walkthrough guide will be updated with the username and subdomain as shown below</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/setup-instructions-complete.png" alt="setup instructions complete">
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The subdomain would look something like this <code>apps.cluster-name.guid.subdomain.myopenshift.com</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_walkthrough_guide"><a class="anchor" href="#_walkthrough_guide"></a><a class="link" href="#_walkthrough_guide">2. Workshop Walkthrough guide</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here is an overview of what you will achieve</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/steps.png" alt="steps">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The Design, Govern and Mock phases of API lifecycle has been discussed in other solutions patterns; so in this pattern we will skip straight to the implementing API versioning. So, this solution pattern focuses on how 3scale API management and OpenShift can help with API versioning.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_step_1_overview"><a class="anchor" href="#_step_1_overview"></a><a class="link" href="#_step_1_overview">2.1. Step 1: Overview</a></h3>
+<div class="paragraph">
+<p>Let&#8217;s walk through an overview of the components that have been setup already</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Launch the <a href="https://console-openshift-console.%SUBDOMAIN%" target="console">OpenShift console</a>  and login</p>
+</li>
+<li>
+<p>Navigate to <strong>Topolgy</strong> from the Developer&#8217;s view of the <code>globex-user1</code> project</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/globex-user1.png" alt="globex user1">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The center section under the name <strong>globex-app-user1</strong> contains the components needed for the first version of the application and the api.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>globex-ui</code> is the retail website</p>
+</li>
+<li>
+<p><code>order-placement</code> is the microservice which implements the OrderPlacement API</p>
+</li>
+<li>
+<p><code>catalog</code> and <code>inventory</code> components provide the services needed for the retail websites.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The left section <strong>v1-1</strong> is the (future looking) setup for v1-1.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This is at zero pods at the moment because the corresponding API version is not setup yet</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The right <strong>v2-0</strong> is the (future looking) setup for v2-0.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This is at zero pods at the moment because the corresponding API version is not setup yet</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_2_enable_version_1_0_0"><a class="anchor" href="#_step_2_enable_version_1_0_0"></a><a class="link" href="#_step_2_enable_version_1_0_0">2.2. Step 2: Enable Version 1.0.0</a></h3>
+<div class="sect3">
+<h4 id="_api_specification_and_governance"><a class="anchor" href="#_api_specification_and_governance"></a><a class="link" href="#_api_specification_and_governance">2.2.1. API specification and governance</a></h4>
+<div class="paragraph">
+<p>&lt;TBC&gt;</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_update_orderplacement_backend_env_variable"><a class="anchor" href="#_update_orderplacement_backend_env_variable"></a><a class="link" href="#_update_orderplacement_backend_env_variable">2.2.2. Update OrderPlacement backend env variable</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The backend of OrderPlacement API for the purpose of the demo, acts as a facade to receive the payload, and then posts the Order payload to a <a href="https://webhook.site/" target="_blank" rel="noopener">https://webhook.site/</a>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In real life, there are a number ways this payload can be handled</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>payload maybe be processed asynchoronously through a event driven architecture</p>
+</li>
+<li>
+<p>payload maybe stored in a a SQL based database or a no-SQL database</p>
+</li>
+<li>
+<p>payload maybe need to be posted to a number of other downstream systems.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>The <strong>ORDER_PLACEMENT_API</strong> env variable of the OrderPlacement backend service has a placeholder which needs to be replaced.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/order-placement-config-before.png" alt="order placement config before"></span></p>
+</div>
+</li>
+<li>
+<p>Launch <a href="https://webhook.site/" target="_blank" rel="noopener">https://webhook.site/</a>, and copy the the URL displayed as <strong>Your unique URL</strong> by clicking on it</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/webhook-site-unique-url.png" alt="webhook site unique url"></span></p>
+</div>
+</li>
+<li>
+<p>From your command prompt, set an environment variable</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">export WEBHOOKSITE=&lt;webhoot.site url that you copied in the previous step&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the following command to update the backend service&#8217;s environment variables.</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">oc set env deployments/order-placement --overwrite ORDER_PLACEMENT_API=$WEBHOOKSITE -n globex-user1</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>This is how the env variables of the  the Order Placement service will look like after update. Any payload being POSTed to this service will now be sent to this webhook site for inspection.
+<span class="image"><img src="_images/order-placement-config-after.png" alt="order placement config after"></span></p>
+</li>
+<li>
+<p>Instead of a plain JSON consider posting this as a <a href="https://cloudevents.io/" target="_blank" rel="noopener">CloudEvents</a> which can be versionined using the CloudEvent headers, and then routed to different handling services using Knative Eeventing</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setup_3scale_entities"><a class="anchor" href="#_setup_3scale_entities"></a><a class="link" href="#_setup_3scale_entities">2.2.3. Setup 3scale entities</a></h4>
+<div class="paragraph">
+<p>To integrate and manage the Product Catalog API in 3scale, you need to create Products and Backend.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On the OpenShift console, click on the <span class="image"><img src="_images/console-import-yaml.png" alt="console import yaml"></span> icon in the top menu on the right. This opens an editor where you can enter a Kubernetes resource definition in YAML format.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/apim-openshift-import.png" alt="apim openshift import"></span></p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Paste the following <strong>Backend</strong> 3scale Custom Resource in the editor, and click on Save</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: capabilities.3scale.net/v1beta1
+kind: Backend
+metadata:
+  name: globex-order-placement-backend
+  namespace: globex-apim-user1
+spec:
+  name: "Globex Order Placement Backend"
+  systemName: "globex-order-placement-backend"
+  privateBaseURL: "http://order-placement.globex-user1.svc.cluster.local:8080"
+  providerAccountRef:
+    name: 3scale-tenant-secret
+  metrics:
+    hits:
+      description: Number of API hits
+      friendlyName: Hits
+      unit: "hit"
+  mappingRules:
+    - httpMethod: POST
+      pattern: "/"
+      increment: 1
+      metricMethodRef: hits</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/apim-create-backend-cr.png" alt="apim create backend cr"></span></p>
+</div>
+</li>
+<li>
+<p>Click <strong>Create</strong> to create the 3scale Backend resource. The 3scale operator creates the Backend resource in your 3scale tenant.</p>
+</li>
+<li>
+<p>You are shown the <strong>Backend details</strong> page. Note under the <strong>Conditions</strong> section at the bottom of the page, the Type <strong>Synced</strong> is set with Status as <strong>True</strong></p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/apim-create-backend-details.png" alt="apim create backend details"></span></p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Click on <a href="https://3scale-user1-admin.%SUBDOMAIN%" target="3scale">3scale</a> to view the backend created for you. Login using (user1/openshift)</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/apim-backend-overview.png" alt="apim backend overview"></span></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="3scale-product"><a class="anchor" href="#3scale-product"></a><a class="link" href="#3scale-product">2.2.4. Create 3scale Product and ActiveDocs</a></h4>
+<div class="paragraph">
+<p>The next step is to create a 3scale Product, Application Plans for the Product, and also ActiveDocs for the Product Catalog API</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On the OpenShift console, click on the <span class="image"><img src="_images/console-import-yaml.png" alt="console import yaml"></span> icon in the top menu on the right. This opens an editor where you can enter a Kubernetes resource definition in YAML format.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Paste the following <strong>Product and ActiveDoc</strong> 3scale Custom Resource in the editor and click on Save</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: capabilities.3scale.net/v1beta1
+kind: Product
+metadata:
+  name: globex-order-placement-product
+  namespace: globex-apim-user1
+spec:
+  name: "Globex Order Placement"
+  systemName: "globex-order-placement-product"
+  metrics:
+    hits:
+      description: Number of API hits
+      friendlyName: Hits
+      unit: "hit"
+  methods:
+    v1_0_0:
+      friendlyName: Method  version 1.0.0
+  mappingRules:
+    - httpMethod: POST
+      pattern: "/v1"
+      increment: 1
+      metricMethodRef: v1_0_0
+    - httpMethod: POST
+      pattern: "/{version}"
+      increment: 1
+      metricMethodRef: hits
+  providerAccountRef:
+    name: 3scale-tenant-secret
+  applicationPlans:
+    basic:
+      name: "Basic Plan"
+      setupFee: "0"
+      published: true
+    premium:
+      name: "Premium Plan"
+      setupFee: "100"
+      published: true
+  backendUsages:
+    globex-order-placement-backend:
+      path: /v1
+
+---
+kind: ActiveDoc
+apiVersion: capabilities.3scale.net/v1beta1
+metadata:
+  name: globex-product-catalog-activedoc
+  namespace: globex-apim-user1
+spec:
+  activeDocOpenAPIRef:
+    url: "https://raw.githubusercontent.com/rh-soln-pattern-api-versioning/api-spec/main/v1.0/OrderPlacementAPI-V1.0.yaml"
+  published: true
+  name: globex-order-placement-activedoc
+  providerAccountRef:
+    name: 3scale-tenant-secret
+  productSystemName: globex-order-placement-product</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>The resources are created for you. You can view them on 3scale as well.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/prod-activedoc-1.0-created.png" alt="prod activedoc 1.0 created" width="60%"></span></p>
+</div>
+</li>
+<li>
+<p><strong>ActiveDoc</strong> can be viewed under Product&gt;ActiveDocs</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>ActiveDoc is created with OpenApi Specs. For the purpose of this solution pattern we are using a prebuilt OpenAPI.</p>
+</li>
+<li>
+<p>Apicurio API designer is a great too to build API designs. You can then manage it with Apicurio Service Registry</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setup_methods_and_mapping_rules_for_order_placement_api_version_1_0_0"><a class="anchor" href="#_setup_methods_and_mapping_rules_for_order_placement_api_version_1_0_0"></a><a class="link" href="#_setup_methods_and_mapping_rules_for_order_placement_api_version_1_0_0">2.2.5. Setup Methods and mapping rules for Order Placement API Version 1.0.0</a></h4>
+<div class="paragraph">
+<p>Now that the foundationation is setup, let us create the  Methods and Metrics for the <strong>Order Placement API</strong> product. This will help us to map different backend services for different URL versions, and also help to track metrics based on hits for different backend service versions</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In 3scale, from the <strong>Globex Order Placement</strong> navigate to <strong>Product&#8594; Integration &#8594;  Methods and Metrics</strong>. Click on <strong>Add Method</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/methods.png" alt="methods">
+</div>
+</div>
+</li>
+<li>
+<p>Fill in the details as shown below</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/methods-add.png" alt="methods add">
+</div>
+</div>
+</li>
+<li>
+<p>Now click on <strong>Add a maping rule</strong> which will help to route a request to the right version of backend service</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">E.g. `api.globex.com/v1/OrderPlacement` will go to `v1`  backend service</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/methods-add-mapping-rule.png" alt="methods add mapping rule">
+</div>
+</div>
+</li>
+<li>
+<p>Fill the <strong>New Mapping Rule</strong> form as shown below, and click on <strong>Create mapping rule</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mapping-rule-form.png" alt="mapping rule form" width="60%">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_add_new_mapping_rule_for_overall_metric_tracking"><a class="anchor" href="#_add_new_mapping_rule_for_overall_metric_tracking"></a><a class="link" href="#_add_new_mapping_rule_for_overall_metric_tracking">2.2.6. Add New mapping rule for overall metric tracking</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a new mapping rule with the following details</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/version-mapping-rule.png" alt="version mapping rule">
+</div>
+</div>
+</li>
+<li>
+<p>This will help you track all the metric to Globex Order Placement API in total.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_promote_apicast"><a class="anchor" href="#_promote_apicast"></a><a class="link" href="#_promote_apicast">2.2.7. Promote ApiCast</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Before you can start accessing the Globex Order Placement API, you must promote the APIcast configuration as below.<br></p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>APIcast is an NGINX based API gateway used to integrate your internal and external API services with the Red Hat 3scale Platform. In this workshop we use the two built-in APICast (staging and production) that come by default with the 3scale installation. They come pre-configured and ready to use out-of-the-box.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>From <a href="https://3scale-user1-admin.%SUBDOMAIN%" target="3scale">3scale homepage</a>, under the Products section, click on <strong>Globex Order Placement</strong> to view the Product&#8217;s overview page. From the left hand menu, navigate to <strong>Integration</strong> &gt; <strong>Configuration</strong></p>
+</li>
+<li>
+<p>Under <strong>APIcast Configuration</strong>, click <strong>Promote to v.x Staging APICast</strong> to promote the APIcast configurations. Similarly click <strong>Promote to v.x Production APICast</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/apim-promote-prod.png" alt="apim promote prod">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Note that  <strong>Globex Order Placement Backend</strong> shows that the backend is mapped as "v1". The API will then be accessed via <strong>v1</strong> path. This helps in versioning this OrderPlacement API as <strong>1.0.0</strong></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_signup_for_access_by_creating_an_application_for_a_developer"><a class="anchor" href="#_signup_for_access_by_creating_an_application_for_a_developer"></a><a class="link" href="#_signup_for_access_by_creating_an_application_for_a_developer">2.2.8. Signup for access by creating an Application for a Developer</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From the <strong>Import YAML</strong> form, paste the following <strong>Developer and Application</strong> 3scale Custom Resource in the editor and click on Save</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: capabilities.3scale.net/v1beta1
+kind: DeveloperAccount
+metadata:
+  name: globex-developeraccount
+spec:
+  orgName: Globex
+  providerAccountRef:
+    name: 3scale-tenant-secret</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>From the <strong>Import YAML</strong> form, paste the following <strong>Developer and Application</strong> 3scale Custom Resource in the editor and click on Save</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: globexuser.secret
+  namespace: globex-apim-user1
+type: Opaque
+stringData:
+  password: openshift
+
+---
+
+apiVersion: capabilities.3scale.net/v1beta1
+kind: DeveloperUser
+metadata:
+  name: admin
+spec:
+  username: admin.globex
+  email: admin@globex.com
+  passwordCredentialsRef:
+    name: globexuser.secret
+  role: admin
+  developerAccountRef:
+    name: globex-developeraccount
+  providerAccountRef:
+    name: 3scale-tenant-secret
+
+---
+
+apiVersion: capabilities.3scale.net/v1beta1
+kind: DeveloperUser
+metadata:
+  name: developer.globex
+  namespace: globex-apim-user1
+spec:
+  username: developer.globex
+  email: dev@globex.com
+  passwordCredentialsRef:
+    name: globexuser.secret
+  role: member
+  developerAccountRef:
+    name: globex-developeraccount
+  providerAccountRef:
+    name: 3scale-tenant-secret
+---
+
+apiVersion: capabilities.3scale.net/v1beta1
+kind: Application
+metadata:
+  name: basic-application1
+  namespace: globex-apim-user1
+spec:
+  accountCR:
+    name: globex-developeraccount
+  applicationPlanName: basic
+  description: Basic Plan
+  name: basic-plan
+  productCR:
+    name: globex-order-placement-product</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next step, patch the <code>globex-ui</code> deployment with the API credentials and Staging APIcast URL.</p>
+<div id="user-key-access" class="ulist">
+<ul>
+<li>
+<p>API credentials is found under <strong>Product (Order Placement API)&gt; Applications &gt; Listing &gt; "basic"</strong>.</p>
+</li>
+<li>
+<p>Copy the alphanumeric value found as <strong>User Key</strong> and create environement variable <code>API_USER_KEY_VALUE_1_0_0</code></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/application-credentials-1.0.png" alt="application credentials 1.0">
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">export API_USER_KEY_VALUE_1_0_0=&lt;replace with API credentials&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the following command to update the backend service&#8217;s env variables.</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell script hljs" data-lang="shell script">oc set env deployments/globex-ui --overwrite API_USER_KEY_VALUE=$API_USER_KEY_VALUE_1_0_0  \
+API_TRACK_PLACEORDER=https://globex-order-placement-product-3scale-user1-apicast-staging.%SUBDOMAIN%/v1/placeorder -n globex-user1</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_testing_this_out"><a class="anchor" href="#_testing_this_out"></a><a class="link" href="#_testing_this_out">2.2.9. Testing this out</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Launch the <a href="https://globex-ui-globex-user1.%SUBDOMAIN%/" target="_blank" rel="noopener">retail website</a></p>
+</li>
+<li>
+<p>Login using any email address and a any 6digit password - this is just a simulation.</p>
+</li>
+<li>
+<p>Navigate to the <strong>Cool Stuff Store</strong> from the top menu. Add a few things to cart.</p>
+</li>
+<li>
+<p>Click on <strong>Cart</strong> from the top menu and <strong>Proceed to Checkout</strong>.</p>
+</li>
+<li>
+<p>Click on <strong>Autofill form</strong> to make it easy to fill this form.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/globex-ui-v-100.png" alt="globex ui v 100">
+</div>
+</div>
+</li>
+<li>
+<p>Click on <strong>Submit Order</strong></p>
+</li>
+<li>
+<p>You must see a success message</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/globex-ui-order-submit.png" alt="globex ui order submit">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_view_traffic_analytics"><a class="anchor" href="#_view_traffic_analytics"></a><a class="link" href="#_view_traffic_analytics">2.2.10. View Traffic Analytics</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Try placing a few orders to generate traffic. You can also place dummy orders by invoking the APICast endpoint on Postman or similar.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Append the following endpoint with the <strong>API credentials</strong> for the application created. If needed, click <a href="#user-key-access">instructions</a> to see how to access API credentials.</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">https://globex-order-placement-product-3scale-user1-apicast-staging.%SUBDOMAIN%/v1/placeorder?user_key=&lt;user key from Application&gt;</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Navigate to <a href="https://3scale-user1-admin.%SUBDOMAIN%" target="3scale">3scale Dashboard</a>, and click on <strong>globex-order-placement</strong> to view the Product Details</p>
+</li>
+<li>
+<p>Click on the <strong>Analytics &#8594; Traffic</strong> link on the left hand side menu. You will see the <strong>Hits</strong> details.</p>
+</li>
+<li>
+<p>This section provides insights in terms of the number of hits for the product and other traffic analysis details as well.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/apim-traffic.png" alt="apim traffic"></span></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_3_enable_version_1_1_0"><a class="anchor" href="#_step_3_enable_version_1_1_0"></a><a class="link" href="#_step_3_enable_version_1_1_0">2.3. Step 3: Enable Version 1.1.0</a></h3>
+<div class="paragraph">
+<p>In this setp let&#8217;s introduce version 1.1.0 of OrderPlacement API. A non-breaking change is introduced to allow for a new field called <strong>Delivery Instructions</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The following summarizes some of the critical impact across the different personas</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>As an <strong>API provider</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Use APICurio studio to make changes to  OpenAPI Specification to include Optional field <strong>Delivery Instructions</strong> and change version from 1.0.0 to 1.1.0</p>
+</li>
+<li>
+<p>Publish this on Apicurio Service Registry</p>
+</li>
+<li>
+<p>Update  3scale for new Backend (version 1.1.0), update Product to point to the Backend version 1.1.0, update ActivdDoc</p>
+</li>
+<li>
+<p>Point to new Backend service which adheres to the new API specification</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>As mentioned earlier the APICurio studio and Apicurio Service Registry changes are not included to keep this solution pattern accessible and not overtly too lengthy.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>As a <strong>Backend service developer</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new branch with name <strong>v1.1.0</strong> and change the Order Placement service to allow for <strong>Delivery Instructions</strong></p>
+</li>
+<li>
+<p>Update any POJOs or mapping - ideally it is better to handle this as a JSON payload rather than mapping to a POJO so as to allow for minimal impact</p>
+</li>
+<li>
+<p>Update validations against new OpenAPI spec. In our case we use JSON Schema based validation.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>As an <strong>API consumer</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>May choose to consume the new API at their own pace.</p>
+</li>
+<li>
+<p>Changes includ update to the UI to allow for the new field <strong>Delivery Instructions</strong>.</p>
+</li>
+<li>
+<p>Change any validations if necessary. Ensurea adherence to new OpenAPI specification</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_new_version_of_the_backend_service"><a class="anchor" href="#_new_version_of_the_backend_service"></a><a class="link" href="#_new_version_of_the_backend_service">2.3.1. New version of the backend service</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The backend service deployment for version 1.1.0 is in place to keep this pattern simple, but is set as replica 0 (i.e, it is at zero pods)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The OpenAPI specification for this version 1.1.0 has been converted onto JSON Schema and is part of this backend service. Click here to view the <a href="https://raw.githubusercontent.com/rh-soln-pattern-api-versioning/order-placement-service/1.1.0/src/main/java/org/globex/retail/json-schema/order-placement-payload.json" target="_blank" rel="noopener">version 1.1.0 JSON Schema</a>. Note the introduction of <strong>delivery_instructions</strong> field which is optional</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/json-schema-v110.png" alt="json schema v110" width="60%">
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Patch this deployment with the webhook.site URL that you have setup earlier.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>From your command prompt <code>echo $WEBHOOKSITE</code> to make sure you have the env variable accessible</p>
+</li>
+<li>
+<p>Run the following command to update the backend service&#8217;s environment variables.</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">oc set env deployments/order-placement-v1-1-0 --overwrite ORDER_PLACEMENT_API=$WEBHOOKSITE -n globex-user1</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>From the Developer Perspective, navigate to the <a href="https://console-openshift-console.%SUBDOMAIN%/topology/ns/globex-user1?view=graph" target="console">globex-user1 namespace</a></p>
+</li>
+<li>
+<p>Click on the deployment and <code>order-placement-v1-1-0</code> deployment, and from the Details tab displayed on the right hand side, scale the pod to 1.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/op-v110-scale-pod.png" alt="op v110 scale pod" width="60%">
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configure_new_backend_version_1_1_0_in_3scale"><a class="anchor" href="#_configure_new_backend_version_1_1_0_in_3scale"></a><a class="link" href="#_configure_new_backend_version_1_1_0_in_3scale">2.3.2. Configure new Backend version 1.1.0 in 3scale</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new backend with this YAML</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: capabilities.3scale.net/v1beta1
+kind: Backend
+metadata:
+  name: globex-order-placement-backend-1-1-0
+  namespace: globex-apim-user1
+spec:
+  name: "Globex Order Placement Backend 1.1.0"
+  systemName: "globex-order-placement-backend-1-1-0"
+  privateBaseURL: "http://order-placement-v1-1-0.globex-user1.svc.cluster.local:8080"
+  providerAccountRef:
+    name: 3scale-tenant-secret
+  metrics:
+    hits:
+      description: Number of API hits
+      friendlyName: Hits
+      unit: "hit"
+  mappingRules:
+    - httpMethod: POST
+      pattern: "/"
+      increment: 1
+      metricMethodRef: hits
+---
+kind: ActiveDoc
+apiVersion: capabilities.3scale.net/v1beta1
+metadata:
+  name: globex-product-catalog-activedoc-v-1-1-0
+  namespace: globex-apim-user1
+spec:
+  activeDocOpenAPIRef:
+    url: "https://raw.githubusercontent.com/rh-soln-pattern-api-versioning/api-spec/main/v1.1/OrderPlacementAPI-V1.1.yaml"
+  published: true
+  name: globex-product-catalog-activedoc-v-1-1-0
+  providerAccountRef:
+    name: 3scale-tenant-secret
+  productSystemName: globex-order-placement-product</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_update_globex_order_placement_product"><a class="anchor" href="#_update_globex_order_placement_product"></a><a class="link" href="#_update_globex_order_placement_product">2.3.3. Update <strong>Globex Order Placement</strong> Product</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Update the Product&#8217;s /v1 path to the new Backend with version 1.1.0. This means that the existing Backend needs to be deleted</p>
+</li>
+<li>
+<p>Navigate to <strong>Integration &#8594; Backends</strong>. Click the delete/trashcan icon shown against the <strong>Globex Order Placement Backend</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Choose <strong>OK</strong> when prompted</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/backend-v100-delete.png" alt="backend v100 delete">
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Click <strong>Add a backend</strong> button</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Choose <strong>Globex Order Placement Backend 1.1.0</strong> from the dropdown</p>
+</li>
+<li>
+<p>Choose <strong>/v1/</strong> as path</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/backend-110-add.png" alt="backend 110 add">
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Click Add to Product</p>
+</li>
+<li>
+<p>Promote APICast configuration from Integration &#8594; Configuration &#8594; <strong>Promote to v.x Staging APICast</strong> and <strong>Promote to v.x Production APICast</strong></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_update_ui_to_updated_version_1_1_0"><a class="anchor" href="#_update_ui_to_updated_version_1_1_0"></a><a class="link" href="#_update_ui_to_updated_version_1_1_0">2.3.4. Update UI to updated version 1.1.0</a></h4>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This is a backward compatible change. Therefore, the existing <strong>globex-ui 1.0.0</strong> deployment will work as it is without any changes with the new <strong>Backend  1.1.0</strong> version. You can test this out just to be sure :)</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When the UI developers are ready, they can make the following changes to start consuming the new changes, and send the new Delivery Instructions as part of the order payload.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run this command to update the image of globex-ui deployment to the 1.1.0 version</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">oc set image deployment/globex-ui globex-ui=quay.io/rh_soln_pattern_api_versioning/globex-ui:1.1.0 -n globex-user1</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_test_it_out"><a class="anchor" href="#_test_it_out"></a><a class="link" href="#_test_it_out">2.3.5. Test it out</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Launch the globex-ui, login using a valid email address and 6 digit password</p>
+</li>
+<li>
+<p>Add a few things to the card and proceed to checkout</p>
+</li>
+<li>
+<p>Notice that there is a new field called <strong>Delivery Instructions</strong>. Provide some content for this new field, and click on <strong>Submit Order</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/delivery-instructions.png" alt="delivery instructions">
+</div>
+</div>
+</li>
+<li>
+<p>You should see a confirmation message that the order has been placed.</p>
+</li>
+<li>
+<p>Navigate to the webhook.site you have setup to check that the <strong>delivery_instructions</strong> is being passed on correctly</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/delivery-instructions-webhook.png" alt="delivery instructions webhook">
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_4_enable_version_2_0_0"><a class="anchor" href="#_step_4_enable_version_2_0_0"></a><a class="link" href="#_step_4_enable_version_2_0_0">2.4. Step 4: Enable Version 2.0.0</a></h3>
+<div class="paragraph">
+<p>In this setp let&#8217;s introduce version 2.0.0 of OrderPlacement API. A breaking change is introduced to merge <strong>First name and Last name</strong> into a single field.</p>
+</div>
+<div class="paragraph">
+<p>The same set of impact identified  across the different personas while introducing version 1.1.0 also applies for a Major version change. The main impact is that, this version is NOT backward compatible.</p>
+</div>
+<div class="sect3">
+<h4 id="_new_version_of_the_backend_service_2"><a class="anchor" href="#_new_version_of_the_backend_service_2"></a><a class="link" href="#_new_version_of_the_backend_service_2">2.4.1. New version of the backend service</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The backend service deployment for version 2.0.0 is in place to keep this pattern simple, but is set as replica 0 (i.e, it is at zero pods)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The OpenAPI specification for this version 2.3.0 has been converted onto JSON Schema and is part of this backend service. Click here to view the <a href="https://raw.githubusercontent.com/rh-soln-pattern-api-versioning/order-placement-service/2.0.0/src/main/java/org/globex/retail/json-schema/order-placement-payload.json" target="_blank" rel="noopener">version 2.0.0 JSON Schema</a>. Note the introduction of <strong>delivery_instructions</strong> field which is optional</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/json-schema-v200.png" alt="json schema v200" width="60%">
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Patch this deployment with the webhook.site URL that you have setup earlier.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>From your command prompt <code>echo $WEBHOOKSITE</code> to make sure you have the env variable accessible</p>
+</li>
+<li>
+<p>Run the following command to update the backend service&#8217;s environment variables.</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">oc set env deployments/order-placement-v2-0 --overwrite ORDER_PLACEMENT_API=$WEBHOOKSITE -n globex-user1</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>From the Developer Perspective, navigate to the <a href="https://console-openshift-console.%SUBDOMAIN%/topology/ns/globex-user1?view=graph" target="console">globex-user1 namespace</a></p>
+</li>
+<li>
+<p>Click on the deployment and <code>order-placement-v2-0</code> deployment, and from the Details tab displayed on the right hand side, scale the pod to 1.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configure_new_backend_version_2_0_0_in_3scale"><a class="anchor" href="#_configure_new_backend_version_2_0_0_in_3scale"></a><a class="link" href="#_configure_new_backend_version_2_0_0_in_3scale">2.4.2. Configure new Backend version 2.0.0 in 3scale</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new Backend version and ActiveDoc with this YAML</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: capabilities.3scale.net/v1beta1
+kind: Backend
+metadata:
+  name: globex-order-placement-backend-2-0-0
+  namespace: globex-apim-user1
+spec:
+  name: "Globex Order Placement Backend 2.0.0"
+  systemName: "globex-order-placement-backend-2-0-0"
+  privateBaseURL: "http://order-placement-v2-0.globex-user1.svc.cluster.local:8080"
+  providerAccountRef:
+    name: 3scale-tenant-secret
+  metrics:
+    hits:
+      description: Number of API hits
+      friendlyName: Hits
+      unit: "hit"
+  mappingRules:
+    - httpMethod: POST
+      pattern: "/"
+      increment: 1
+      metricMethodRef: hits
+---
+kind: ActiveDoc
+apiVersion: capabilities.3scale.net/v1beta1
+metadata:
+  name: globex-product-catalog-activedoc-2-0-0
+  namespace: globex-apim-user1
+spec:
+  activeDocOpenAPIRef:
+    url: "https://raw.githubusercontent.com/rh-soln-pattern-api-versioning/api-spec/main/v2.0/OrderPlacementAPI-V2.0.yaml"
+  published: true
+  name: globex-product-catalog-activedoc-2-0-0
+  providerAccountRef:
+    name: 3scale-tenant-secret
+  productSystemName: globex-order-placement-product</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_update_globex_order_placement_product_2"><a class="anchor" href="#_update_globex_order_placement_product_2"></a><a class="link" href="#_update_globex_order_placement_product_2">2.4.3. Update <strong>Globex Order Placement</strong> Product</a></h4>
+<div class="paragraph">
+<p>Add the new Backend as /v2 path.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Navigate to <strong>Integration &#8594; Backends</strong> of the Globex Order Placement product . Click <strong>Add a backend</strong> button</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Choose <strong>Globex Order Placement Backend 2.01.0</strong> from the dropdown</p>
+</li>
+<li>
+<p>Choose <strong>/v2/</strong> as path</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/backend-200-add.png" alt="backend 200 add">
+</div>
+</div>
+</li>
+<li>
+<p>Click Add to Product</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>Product&#8594; Integration &#8594;  Methods and Metrics</strong>. Click on <strong>Add Method</strong></p>
+</li>
+<li>
+<p>Fill in the details as shown below</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/methods-v200.png" alt="methods v200">
+</div>
+</div>
+</li>
+<li>
+<p>Now click on <strong>Add a maping rule</strong> which will help to route a request to the right version of backend service</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">E.g. `api.globex.com/v1/OrderPlacement` will go to `v2`  backend service</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Fill the <strong>New Mapping Rule</strong> form as shown below, and click on <strong>Create mapping rule</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mapping-rule-form-200.png" alt="mapping rule form 200" width="60%">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Promote APICast configuration from Integration &#8594; Configuration &#8594; <strong>Promote to v.x Staging APICast</strong> and <strong>Promote to v.x Production APICast</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You now have 2 Backends configured which would both work correctly when invoked via /v1/ and /v2/ paths.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_update_ui_to_updated_version_2_0_0"><a class="anchor" href="#_update_ui_to_updated_version_2_0_0"></a><a class="link" href="#_update_ui_to_updated_version_2_0_0">2.4.4. Update UI to updated version 2.0.0</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Run this command to update the image of globex-ui deployment to the 1.1.0 version</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">oc set image deployment/globex-ui globex-ui=quay.io/rh_soln_pattern_api_versioning/globex-ui:2.0.0 -n globex-user1</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run the following command to update the backend service&#8217;s env variables.</p>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell script hljs" data-lang="shell script">oc set env deployments/globex-ui --overwrite API_USER_KEY_VALUE=$API_USER_KEY_VALUE_1_0_0  \
+API_TRACK_PLACEORDER=https://globex-order-placement-product-3scale-user1-apicast-staging.%SUBDOMAIN%/v2/placeorder -n globex-user1</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_test_it_out_2"><a class="anchor" href="#_test_it_out_2"></a><a class="link" href="#_test_it_out_2">2.4.5. Test it out</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Launch the globex-ui, login using a valid email address and 6 digit password</p>
+</li>
+<li>
+<p>Add a few things to the card and proceed to checkout</p>
+</li>
+<li>
+<p>Notice that there is a new field called <strong>Delivery Instructions</strong>. Provide some content for this new field, and click on <strong>Submit Order</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/globex-ui-combined-name.png" alt="globex ui combined name">
+</div>
+</div>
+</li>
+<li>
+<p>You should see a confirmation message that the order has been placed.</p>
+</li>
+<li>
+<p>Navigate to the webhook.site you have setup to check that the <strong>delivery_instructions</strong> is being passed on correctly</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/combined-name-webhook.png" alt="combined name webhook">
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_view_traffic_analytics_of_version_2_0_0"><a class="anchor" href="#_view_traffic_analytics_of_version_2_0_0"></a><a class="link" href="#_view_traffic_analytics_of_version_2_0_0">2.4.6. View Traffic Analytics of version 2.0.0</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Try placing a few orders to generate traffic. You can also place dummy orders as dicussed earlier</p>
+</li>
+<li>
+<p>Navigate to <a href="https://3scale-user1-admin.%SUBDOMAIN%" target="3scale">3scale Dashboard</a>, and click on <strong>globex-order-placement</strong> to view the Product Details</p>
+</li>
+<li>
+<p>Click on the <strong>Analytics &#8594; Traffic</strong> link on the left hand side menu. You will see the <strong>Hits</strong> details split between the versions v1 and v2.</p>
+<div class="paragraph">
+<p><span class="image"><img src="_images/apim-traffic-200.png" alt="apim traffic 200"></span></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>//// ===  Step 4.a: Alternate way to enable Version 2.0.0 ////</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_step_5_manage_and_analyse"><a class="anchor" href="#_step_5_manage_and_analyse"></a><a class="link" href="#_step_5_manage_and_analyse">2.5. Step 5: Manage and Analyse</a></h3>
+<div class="paragraph">
+<p>Analytics, consumer notification</p>
+</div>
+<div class="paragraph">
+<p>Especially with introduction of a breaking change, you will like to sunset your older version of the API at the earliest. You will need to start by notifying the consumers.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Navigate to <strong>Audience (from top menu) &#8594; Accounts &#8594; Listing</strong>.</p>
+</li>
+<li>
+<p>You will the number of applications the Globex user has signed for. (in this case it is 2)</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/audience-acc-listing.png" alt="audience acc listing">
+</div>
+</div>
+</li>
+<li>
+<p>Click on the hyperlink [2]</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/globex-acc-listing.png" alt="globex acc listing">
+</div>
+</div>
+</li>
+<li>
+<p>You can now choose the relevants accounts to view the <strong>Bulk operations</strong> available.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/bulk-ops.png" alt="bulk ops">
+</div>
+</div>
+</li>
+<li>
+<p>Click on <strong>Send email</strong> to send a notification saying something like this.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Subject: Basic Plan of Globex Order Placement version 1.1.0 deprecation
+Body of Email:
+Hello
+Please note that Globex Order Placement version 1.1.0 is being deprecated and will not be available for new signups. The version 1.1.0 will be removed by &lt;date&gt;.
+Please refer to the Developer Portal for details of version 2.0.0</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_make_the_1_1_0_version_unavailable_for_signups"><a class="anchor" href="#_make_the_1_1_0_version_unavailable_for_signups"></a><a class="link" href="#_make_the_1_1_0_version_unavailable_for_signups">2.6. Make the 1.1.0 version unavailable for signups</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Navigate to <strong>Products &#8594; Globex Order Placement &#8594; Applications &#8594; Application Plans</strong></p>
+</li>
+<li>
+<p>Click on the green checkboxes for Enabled and Visible columns for the <code>Method version 1.0.0</code> to make it red as shown below.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/method-v100-off.png" alt="method v100 off">
+</div>
+</div>
+</li>
+<li>
+<p>All calls to /v1/ will now fail authentication.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="02-architecture.html" class="query-params-link">2. Architecture</a></span>
+  <span class="next"><a href="#04-workshop.adoc" class="query-params-link">4. Workshop</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer" style="justify-content: center;">
+  <div>
+    <img src="./_images/red_hat_logo.png" height="40px" alt="Cloud Native Architecture Solution Patterns" href="https://redhat.com">
+  </div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
