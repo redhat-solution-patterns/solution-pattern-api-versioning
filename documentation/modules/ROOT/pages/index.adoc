@@ -1,28 +1,60 @@
-= Solution Patterns: Template Name
+= Solution Patterns: API versioning with 3scale API management
 :page-layout: home
 :sectnums:
 :sectlinks:
 :doctype: book
 
-A brief introduction of this solution pattern.
 
-_Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum_
 
-*Contributors:* _Your Name(s) here (can add links to your profile)_
+In this Solution Pattern we will discuss how Globex, a fictitious retail company, evolves to handle new versions of an API across all layers: backend, API management platform, API consumers.
 
-++++
- <br>
-++++
+*Contributors:* _Jaya Christina Baskaran (Red Hat)_
+
 [NOTE]
 ====
 Solutions Patterns help you understand the art of the possible with Red Hat's portfolio, and not intended to be used as is for production environments. You are welcome use any part of this solution pattern for your own workloads.
 ====
+
 [#use-cases]
 == Use cases
 
-Common use cases that can be address with this architecture are:
+Here are a few usecases where API versioning is undertaken by organizations
 
-- xyz
-- xyz
+* New features that impact existing specifications
+* Changes in business models 
+* Change in data type or format
+* Changes due to third-party integrations
+* Usecase deprecation or sunsetting
 
-include::01-pattern.adoc[]
+[#story]
+== The story behind this solution pattern
+
+In this Solution Pattern we will discuss how Globex, a fictitious retail company, evolves to handle new versions of an API across all layers: backend, API management platform, API consumers.
+
+This solution pattern extend the Globex's retail website  whose existing *OrderPlacement API* is undergoing changes to 
+
+. Include an optional `Delivery Instructions` to make customer deliveries easier.
+. Moving from `First and Last` names to a single `Full name`  field to represent different cultures and conventions
+
+
+
+[#solution]
+== The Solution
+
+With the evolution of the enterprise and technology landscape, changes to the APIs become inevitable. A typical API goes through a lifecycle that starts with the conceptualization of an API and progresses through various stages, including design, implementation, testing, deployment, and ongoing management. 
+
+Just like a https://en.wikipedia.org/wiki/M%C3%B6bius_strip[Mobius strip^] this is a continuous process. As Heraclitus said, “the only constant is change”. The question is how well are adapted to change when it occurs - because it is bound to occur.
+
+In the APIs world, change occurs with varying degrees of impact - ranging from “FYI Only” to “Need immediate action” or "Consumers need changes".  These can typically be broken down into Impacting/Breaking Change and Non-impacting/Non-Breaking change. 
+
+Changes in the API specification or the contract will also have far reaching impact on across teams, organizations, community, partners touching upon a number layers including *backend services*, *API management platform*, *API consumers*. Each of these will need to be managed so that the system as a whole doesn't break. 
+
+Some parameters to consider include
+
+* When to version and when not to version
+* Who the are players in the API game, 
+* What needs to be versioned and how. Versioning best practices
+* How to handle versioning in APIs, the impact on the ecosystem, and the transition on adoption of the new version
+* API retirement and sunsetting
+
+We'll apply all that we discussed above in this setting and see how Red Hat OpenShift and Red Hat Application Foundations which includes 3scale API Management supports all of these critical aspects of API changes and versioning. 

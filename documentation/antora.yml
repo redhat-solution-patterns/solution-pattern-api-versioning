@@ -1,6 +1,6 @@
-name: solution-pattern-template
-title: Template Tutorial
-version: master
+name: api-versioning
+title: API Versioning
+version: main
 nav:
   - modules/ROOT/nav.adoc
 

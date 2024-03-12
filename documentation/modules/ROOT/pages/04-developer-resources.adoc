@@ -1,0 +1,6 @@
+= Solution Pattern: Manage and Secure APIs with an API First Approach
+:sectnums:
+:sectlinks:
+:doctype: book
+
+== Developer Resources
