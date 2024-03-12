@@ -1,6 +1,6 @@
 name: api-versioning
 title: API Versioning
-version: main
+version: master
 nav:
   - modules/ROOT/nav.adoc
 
