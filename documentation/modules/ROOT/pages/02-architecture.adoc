@@ -177,4 +177,6 @@ The devportal allows viewing Live documentation as well, which is another view o
 [#source-code]
 === GitOps and ArgoCD
 
-<TBC>
+GitOps with ArgoCD provides an efficient way of performing API management. GitOps makes it easy for product managers, developers, operations, and security teams to work together in API management. 
++
+Read more about this https://developers.redhat.com/articles/2023/08/16/streamlining-api-management-power-gitops[here^]
