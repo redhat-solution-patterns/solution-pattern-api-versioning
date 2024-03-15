@@ -30,7 +30,7 @@ Here is the list of tools you need in your local environment so that you can use
 To check if you have the cli tools, you can open your terminal and use following commands:
 
 ******
-.console-input]
+[.console-input]
 [source,shell script]
 ----
 oc version #openshift cli client
@@ -120,7 +120,6 @@ image::steps.png[]
 The Design, Govern and Mock phases of API lifecycle have been discussed in other https://redhat-solution-patterns.github.io/solution-pattern-api-first[solutions patterns^]; so in this pattern we will skip straight to the implementing API versioning. So, this solution pattern focuses on how 3scale API management and OpenShift can help with API versioning. 
 
 ====
-
 
 
 == Step 1: Overview
@@ -214,8 +213,8 @@ Instead of a plain JSON order payload, you can consider the payload to be a http
 Just like the code, all the 3scale Custom Resources are also maintained in git and are managed through ArgoCD/GitOps. This helps to version the 3scale entities as well.
 
 . Run this command from where you have cloned the ansible playbook in the first step.
-** This command will use the git branch `1.0.0` as the source of truth since we start with version `1.0.0`
-** This command will create version 1.0.0 of 3scale Backend, Product, Application Plans, Developer Account and the Application for the account as well
+* This command will use the git branch `1.0.0` as the source of truth since we start with version `1.0.0`
+* This command will create version 1.0.0 of 3scale Backend, Product, Application Plans, Developer Account and the Application for the account as well
 +
 ******
 [.console-input]
