@@ -10,7 +10,6 @@
 
 * xref:03-demo.adoc[{counter:module}. See the Solution in Action]
 ** xref:03-demo.adoc#_setup_the_solution[{module}.{counter:submodule3}. Setup the solution]
-*** xref:03-demo.adoc#_pre_requisites[{module}.{counter:submodule3}. Pre-requisites]
 ** xref:03-demo.adoc#_walkthrough_guide[{module}.{counter:submodule3}. Walkthrough guide]
 
 * xref:developer-resources.adoc[{counter:module}. Developer Resources]

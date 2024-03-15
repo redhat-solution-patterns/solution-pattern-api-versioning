@@ -12,7 +12,7 @@ In this Solution Pattern we will discuss how Globex, a fictitious retail company
 
 [NOTE]
 ====
-Solutions Patterns help you understand the art of the possible with Red Hat's portfolio, and not intended to be used as is for production environments. You are welcome use any part of this solution pattern for your own workloads.
+Solutions Patterns help you understand the art of the possible with Red Hat's portfolio, and not intended to be used as is for production environments. You are welcome to use any part of this solution pattern for your own workloads.
 ====
 
 [#use-cases]
@@ -43,9 +43,9 @@ This solution pattern extend the Globex's retail website  whose existing *OrderP
 
 With the evolution of the enterprise and technology landscape, changes to the APIs become inevitable. A typical API goes through a lifecycle that starts with the conceptualization of an API and progresses through various stages, including design, implementation, testing, deployment, and ongoing management. 
 
-Just like a https://en.wikipedia.org/wiki/M%C3%B6bius_strip[Mobius strip^] this is a continuous process. As Heraclitus said, “the only constant is change”. The question is how well are adapted to change when it occurs - because it is bound to occur.
+Just like a https://en.wikipedia.org/wiki/M%C3%B6bius_strip[Mobius strip^] this is a continuous process. As Heraclitus said, “the only constant is change”. The question is how well we are adapted to change when it occurs - because it is bound to occur.
 
-In the APIs world, change occurs with varying degrees of impact - ranging from “FYI Only” to “Need immediate action” or "Consumers need changes".  These can typically be broken down into Impacting/Breaking Change and Non-impacting/Non-Breaking change. 
+In the APIs world, change occurs with varying degrees of impact - ranging from “FYI Only” to “Need immediate action” or "Consumers need changes".  These can typically be broken down into *Impacting/Breaking Change* and *Non-impacting/Non-Breaking* change. 
 
 Changes in the API specification or the contract will also have far reaching impact on across teams, organizations, community, partners touching upon a number layers including *backend services*, *API management platform*, *API consumers*. Each of these will need to be managed so that the system as a whole doesn't break. 
 
@@ -57,4 +57,10 @@ Some parameters to consider include
 * How to handle versioning in APIs, the impact on the ecosystem, and the transition on adoption of the new version
 * API retirement and sunsetting
 
-We'll apply all that we discussed above in this setting and see how Red Hat OpenShift and Red Hat Application Foundations which includes 3scale API Management supports all of these critical aspects of API changes and versioning. 
+
+Having said that, it is important to be thoughtful about changes. 
+
+* Adhoc changes should never be made lightly but be undertaken only where there is a critical impact such as security. 
+* Changes should follow a predictable lifecycle. Examples could be to follow how once in 3 or 6 months cadence
+
+We'll apply all that we discussed above in this setting and see how https://www.redhat.com/en/technologies/cloud-computing/openshift[Red Hat OpenShift^] and https://www.redhat.com/en/products/application-foundations[Red Hat Application Foundations^], which includes https://www.redhat.com/en/technologies/jboss-middleware/3scale[3scale API Management^] supports all of these critical aspects of API changes and versioning. 

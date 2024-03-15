@@ -7,8 +7,8 @@
 = Architecture 
 == Common Challenges 
 
-Introducing changes in APIs has an impact across different personas. 
- 
+Introducing changes in APIs have an impact across different stakeholders in an API's lifecycle. Some common challenges are:
+
 {set:cellbgcolor:#E7F3F4}
 [cols="1a,1a,1a"]
 |===
@@ -24,7 +24,7 @@ Introducing changes in APIs has an impact across different personas.
 
 |
 * Plan for API versioning from the beginning
-* Plan for different API versiong running side by side
+* Plan for different API versioning running side by side
 * Handling of data and database
 
 |
@@ -51,7 +51,7 @@ Introducing changes in APIs has an impact across different personas.
 [#in_depth]
 == An in-depth look at the solution's architecture
 
-This Solution Pattern, as disussed earlier, involves the *OrderPlacement API* which is already in use and needs to undergo changes the following series of changes. 
+This Solution Pattern, as discussed earlier, involves the *OrderPlacement API* which is already in use and needs to undergo the following series of changes. 
 
 * *Change 1: A non-breaking change:*
 ** Introduction of an optional field called `Delivery Instructions` which the customers can use to provide additional info to help with easy delivery
@@ -60,41 +60,49 @@ This Solution Pattern, as disussed earlier, involves the *OrderPlacement API* wh
 
 === Setting the stage
 
-Let's look at a quick refresher on 3scale API management and it's various entities
+Let's look at a quick refresher on 3scale API management and it's various entities 
+
+.[.underline]*Click to text version of the below diagram*
+[%collapsible]
+====
+* An API in 3scale is referred to as a Product. Products can have one or many Backends. 
+* A Backend is a web service that 3scale will proxy requests to based on mapping rules defined by the Product. 
+* Application plans can be used to define usage rules and limits for your API. 
+* A developer signs up to an Application Plan of a  API Product; A a unique Application is associated a unique set of credentials for the API, 
+* Method defines the allowed interactions  - such as GET, POST or DELETE - with an API or a product
+* Mapping rules define the metrics or methods that you want to report depending on the requests to your API.
+* Metrics help you track of specific calls to an API
+====
 
 image::3scale-primer.png[] 
 
-// * An API in 3scale is referred to as a Product. Products can have one or many Backends. 
-// * A Backend is a web service that 3scale will proxy requests to based on mapping rules defined by the Product. 
-// * Application plans can be used to define usage rules and limits for your API. 
-// * A developer signs up to an Application Plan of a  API Product; A a unique Application is associated a unique set of credentials for the API, 
-// * Method defines the allowed interactions  - such as GET, POST or DELETE - with an API or a product
-// * Mapping rules define the metrics or methods that you want to report depending on the requests to your API.
-// * Metrics help you track of specific calls to an API
 
 === When to version 
 
-* Don't change API vesioning lightly. Consumers need a stable versions, and so don't version often
+* Don't change API versioning frequently. Consumers need a stable versions, and so don't version often
 * In fact, frequent versioning is seen as chaotic, disorganised
 * Breaking changes should only be considered when there is no other alternative (security/compliance/law) or it becomes uneconomical
-* It is good practice to consider a predicatable versioning of APIs (e.g. new versions every 3 months)
+* It is good practice to consider a predictable versioning of APIs (e.g. new versions every 3 months)
 
 === How to version
 
 * Follow https://semver.org/[Semantic versioning^] (semver) to ensure standardisation +
-The extent of changes to an API (or sofware for that matter) drives the versioning by assigning either unique unique version numbers in the form X.Y.Z. 
+The extent of changes to an API (or sofwatre for that matter) drives the versioning by assigning either unique version numbers in the form X.Y.Z. 
 
 image::sem-versioning.png[width=60%]
 
-// (X represent major version, Y minor verson and Z patch version)
-//*** Increment X: Major releases include incompatible API changes which will break consumers  (e.g. 1.1.0 to 2.0.0)
-//*** Increment Y: Minor changes or new features without impact on consumers (e.g. 1.0.0 to 1.1.0)
-//*** Increment Z: Bug fixes or patches which you makes backward compatible changes which don't impact the consumers (e.g. 1.0.0 to 1.0.1) 
-
+.[.underline]*Click to view text version*
+[%collapsible]
+====
+(X represent major version, Y minor verson and Z patch version)
+*** Increment X: Major releases include incompatible API changes which will break consumers  (e.g. 1.1.0 to 2.0.0)
+*** Increment Y: Minor changes or new features without impact on consumers (e.g. 1.0.0 to 1.1.0)
+*** Increment Z: Bug fixes or patches which you makes backward compatible changes which don't impact the consumers (e.g. 1.0.0 to 1.0.1) 
+====
 
 [TIP]
 ====
-https://semver.org/ provides fantastic guidance on dos and dont of versioning and is highly recommended read.
+https://semver.org/ provides fantastic guidance on _dos and donts_ of versioning and is a highly recommended read.
 ====
 
 
@@ -135,18 +143,19 @@ An alternate way to implement API versioning is to create a completely new API p
 * Sunsetting an API product can be easier because there an entire API product can be archived after consumers migrate away to the newer version
 
 ==== When to choose what
-The answer is, of couse, _it depends_ :)
+The answer is, of course, _it depends_ :)
 
+Usually the popular approach is URL versioning, and that is what we will discuss in this pattern. Whichever method you opt for, a majority of this pattern will still helpful in thinking through impact on the stakeholders.
 
 === Measure and manage adoption
 
-There will be a point when a API versions or perhaps the API itself will need to be sunset. It is important to plan for this from get-go.  
+There will be a point when API versions or perhaps the API itself will need to be sunset. It is important to plan for this from the initial stages.
 
-* Track consumption of API versions to understand usage of APIs and versions. The API management platform should ba able to provide the necessary metrics to do this. 
-* Set clear predicatable guidelines on when consumers can expect new API versions. 
-** e.g. Patch versions every month; Minor or major versions every 3 monthss. 
+* Track consumption of API versions to understand usage of APIs and versions. The API management platform should be able to provide the necessary metrics to do this. 
+* Set clear predictable guidelines on when consumers can expect new API versions. 
+** e.g. Patch versions every month; Minor or major versions every 3 months. 
 ** Publish these policies and guidelines on the developer portal so that consumers can manage their development cycles
-* Notfy consumers about new API versions being available; and more importanly notify consumers about adopting newer versions, and sunsetting of older versions. You will need to define frequency of how often to notify consumers depending on your business needs, Note that manintaing multiple versions is a burden on providers in having to maintain older versions is reduced and hopfully completely removed. 
+* Notify consumers about new API versions being available; and more importantly notify consumers about adopting newer versions, and sunsetting of older versions. You will need to define frequency of how often to notify consumers depending on your business needs. Note that maintaining multiple versions is a burden on providers because of the quantum of effort neeeded to support older versions till they are completely removed. 
 * Release notes in the Developer Portal should clearly articulate changes in each version, along with examples and a way to try out.
 
 
@@ -155,8 +164,8 @@ There will be a point when a API versions or perhaps the API itself will need to
 
 === API Design, Govern and Mockup
 
-* As part of the API-First approach, the first step, of course, is to design the APIs. API Designer is a tool to design your APIs used by various stakeholders  to define the API specs. The API are defined for the existing catalogue service as well. 
-* Once the API design is complete, the API versions can now published  in a schema registry. https://access.redhat.com/documentation/en-us/red_hat_build_of_apicurio_registry[Red Hat build of Apicurio Registry^, window=_blank] is a datastore for sharing standard event schemas and API designs across event-driven and API architectures. 
+* As part of the API-First approach, the first step, of course, is to design the APIs. API Designer is a tool to design your APIs used by various stakeholders to define the API specs. 
+* Once the API design is complete, the API versions can be published  in a schema registry. https://access.redhat.com/documentation/en-us/red_hat_build_of_apicurio_registry[Red Hat build of Apicurio Registry^, window=_blank] is a datastore for sharing standard event schemas and API designs across event-driven and API architectures. 
 ** You can upload new artifacts, new versions,  view the metadata, download the specs, view documentation and view the content as well.
 ** Through Content rules one can validate new versions of the APIs against the existing specs to ensure validity and backward compatibility.
 * Microcks can be used to mock the APIs so that the various development teams can to develop their pieces of code even before the APIs are completely implemented
