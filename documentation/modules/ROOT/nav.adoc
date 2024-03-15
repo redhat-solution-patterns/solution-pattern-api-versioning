@@ -12,6 +12,6 @@
 ** xref:03-demo.adoc#_setup_the_solution[{module}.{counter:submodule3}. Setup the solution]
 ** xref:03-demo.adoc#_walkthrough_guide[{module}.{counter:submodule3}. Walkthrough guide]
 
-* xref:developer-resources.adoc[{counter:module}. Developer Resources]
+* xref:04-developer-resources.adoc[{counter:module}. Developer Resources]
 
 * https://redhat-solution-patterns.github.io/solution-patterns/patterns.html[Explore Red Hat Solution Patterns^]

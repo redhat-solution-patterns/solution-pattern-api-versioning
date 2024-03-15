@@ -4,3 +4,11 @@
 :doctype: book
 
 == Developer Resources
+
+* https://redhat-solution-patterns.github.io/solution-pattern-api-first/api-first/index.html[Solution Patterns: Manage and Secure APIs with an API First Approach^]
+* Red Hat 3scale API Management: https://developers.redhat.com/products/3scale/overview[Share, secure, control, and analyze your APIs^]
+* Streamlining API management with the power of GitOps: https://developers.redhat.com/articles/2023/08/16/streamlining-api-management-power-gitops[5 reasons to use GitOps for API management^]
+* https://semver.org/[Semantic Versioning^]
+
+
+ 
