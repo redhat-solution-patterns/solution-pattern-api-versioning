@@ -21,10 +21,11 @@ Solutions Patterns help you understand the art of the possible with Red Hat's po
 Here are a few usecases where API versioning is undertaken by organizations
 
 * New features that impact existing specifications
-* Changes in business models 
-* Change in data type or format
-* Changes due to third-party integrations
+* Changes in business models such as new channels of collaboration
+* Change in payload format due to compliance or security reasons
+* Changes due to downstream integrations
 * Usecase deprecation or sunsetting
+
 
 [#story]
 == The story behind this solution pattern

@@ -129,7 +129,7 @@ Let's walk through an overview of the components that have been setup already
 * Launch the https://console-openshift-console.%SUBDOMAIN%[OpenShift console^,window=console] and login
 * Navigate to *Topology* from the Developer's view of the `globex-user1` project
 +
-image::globex-user1.png[]
+image::globex-user1.png[width=70%]
 ** The center section under the name *globex-app-user1* contains the components needed for the first version of the application and the api.
 *** `globex-ui` is the retail website
 *** `order-placement` is the microservice which implements the OrderPlacement API. This service validates incoming payload against JSON Schema of the OpenAPI spec.
