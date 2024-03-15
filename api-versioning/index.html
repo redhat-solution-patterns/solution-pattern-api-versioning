@@ -170,16 +170,10 @@
     <a class="nav-link" href="03-demo.html">3. See the Solution in Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="03-demo.html#_setup_the_solution">3.1. Setup the solution</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="03-demo.html#_pre_requisites">3.2. Pre-requisites</a>
-  </li>
-</ul>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="03-demo.html#_walkthrough_guide">3.3. Walkthrough guide</a>
+    <a class="nav-link" href="03-demo.html#_walkthrough_guide">3.2. Walkthrough guide</a>
   </li>
 </ul>
   </li>
@@ -244,7 +238,7 @@
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Solutions Patterns help you understand the art of the possible with Red Hat&#8217;s portfolio, and not intended to be used as is for production environments. You are welcome use any part of this solution pattern for your own workloads.</p>
+<p>Solutions Patterns help you understand the art of the possible with Red Hat&#8217;s portfolio, and not intended to be used as is for production environments. You are welcome to use any part of this solution pattern for your own workloads.</p>
 </div>
 </td>
 </tr>
@@ -307,10 +301,10 @@
 <p>With the evolution of the enterprise and technology landscape, changes to the APIs become inevitable. A typical API goes through a lifecycle that starts with the conceptualization of an API and progresses through various stages, including design, implementation, testing, deployment, and ongoing management.</p>
 </div>
 <div class="paragraph">
-<p>Just like a <a href="https://en.wikipedia.org/wiki/M%C3%B6bius_strip" target="_blank" rel="noopener">Mobius strip</a> this is a continuous process. As Heraclitus said, “the only constant is change”. The question is how well are adapted to change when it occurs - because it is bound to occur.</p>
+<p>Just like a <a href="https://en.wikipedia.org/wiki/M%C3%B6bius_strip" target="_blank" rel="noopener">Mobius strip</a> this is a continuous process. As Heraclitus said, “the only constant is change”. The question is how well we are adapted to change when it occurs - because it is bound to occur.</p>
 </div>
 <div class="paragraph">
-<p>In the APIs world, change occurs with varying degrees of impact - ranging from “FYI Only” to “Need immediate action” or "Consumers need changes".  These can typically be broken down into Impacting/Breaking Change and Non-impacting/Non-Breaking change.</p>
+<p>In the APIs world, change occurs with varying degrees of impact - ranging from “FYI Only” to “Need immediate action” or "Consumers need changes".  These can typically be broken down into <strong>Impacting/Breaking Change</strong> and <strong>Non-impacting/Non-Breaking</strong> change.</p>
 </div>
 <div class="paragraph">
 <p>Changes in the API specification or the contract will also have far reaching impact on across teams, organizations, community, partners touching upon a number layers including <strong>backend services</strong>, <strong>API management platform</strong>, <strong>API consumers</strong>. Each of these will need to be managed so that the system as a whole doesn&#8217;t break.</p>
@@ -338,7 +332,20 @@
 </ul>
 </div>
 <div class="paragraph">
-<p>We&#8217;ll apply all that we discussed above in this setting and see how Red Hat OpenShift and Red Hat Application Foundations which includes 3scale API Management supports all of these critical aspects of API changes and versioning.</p>
+<p>Having said that, it is important to be thoughtful about changes.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Adhoc changes should never be made lightly but be undertaken only where there is a critical impact such as security.</p>
+</li>
+<li>
+<p>Changes should follow a predictable lifecycle. Examples could be to follow how once in 3 or 6 months cadence</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll apply all that we discussed above in this setting and see how <a href="https://www.redhat.com/en/technologies/cloud-computing/openshift" target="_blank" rel="noopener">Red Hat OpenShift</a> and <a href="https://www.redhat.com/en/products/application-foundations" target="_blank" rel="noopener">Red Hat Application Foundations</a>, which includes <a href="https://www.redhat.com/en/technologies/jboss-middleware/3scale" target="_blank" rel="noopener">3scale API Management</a> supports all of these critical aspects of API changes and versioning.</p>
 </div>
 </div>
 </div>

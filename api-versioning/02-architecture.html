@@ -171,16 +171,10 @@
     <a class="nav-link" href="03-demo.html">3. See the Solution in Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="03-demo.html#_setup_the_solution">3.1. Setup the solution</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="03-demo.html#_pre_requisites">3.2. Pre-requisites</a>
-  </li>
-</ul>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="03-demo.html#_walkthrough_guide">3.3. Walkthrough guide</a>
+    <a class="nav-link" href="03-demo.html#_walkthrough_guide">3.2. Walkthrough guide</a>
   </li>
 </ul>
   </li>
@@ -234,7 +228,7 @@
 <h2 id="_common_challenges"><a class="anchor" href="#_common_challenges"></a><a class="link" href="#_common_challenges">1. Common Challenges</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Introducing changes in APIs has an impact across different personas.</p>
+<p>Introducing changes in APIs have an impact across different stakeholders in an API&#8217;s lifecycle. Some common challenges are:</p>
 </div>
 <div class="paragraph">
 <p></p>
@@ -286,7 +280,7 @@
 <p>Plan for API versioning from the beginning</p>
 </li>
 <li>
-<p>Plan for different API versiong running side by side</p>
+<p>Plan for different API versioning running side by side</p>
 </li>
 <li>
 <p>Handling of data and database</p>
@@ -348,7 +342,7 @@
 <h2 id="in_depth"><a class="anchor" href="#in_depth"></a><a class="link" href="#in_depth">3. An in-depth look at the solution&#8217;s architecture</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This Solution Pattern, as disussed earlier, involves the <strong>OrderPlacement API</strong> which is already in use and needs to undergo changes the following series of changes.</p>
+<p>This Solution Pattern, as discussed earlier, involves the <strong>OrderPlacement API</strong> which is already in use and needs to undergo the following series of changes.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -379,6 +373,36 @@
 <div class="paragraph">
 <p>Let&#8217;s look at a quick refresher on 3scale API management and it&#8217;s various entities</p>
 </div>
+<details>
+<summary class="title"><strong class="underline">Click to text version of the below diagram</strong></summary>
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>An API in 3scale is referred to as a Product. Products can have one or many Backends.</p>
+</li>
+<li>
+<p>A Backend is a web service that 3scale will proxy requests to based on mapping rules defined by the Product.</p>
+</li>
+<li>
+<p>Application plans can be used to define usage rules and limits for your API.</p>
+</li>
+<li>
+<p>A developer signs up to an Application Plan of a  API Product; A a unique Application is associated a unique set of credentials for the API,</p>
+</li>
+<li>
+<p>Method defines the allowed interactions  - such as GET, POST or DELETE - with an API or a product</p>
+</li>
+<li>
+<p>Mapping rules define the metrics or methods that you want to report depending on the requests to your API.</p>
+</li>
+<li>
+<p>Metrics help you track of specific calls to an API</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
 <div class="imageblock">
 <div class="content">
 <img src="_images/3scale-primer.png" alt="3scale primer">
@@ -390,7 +414,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>Don&#8217;t change API vesioning lightly. Consumers need a stable versions, and so don&#8217;t version often</p>
+<p>Don&#8217;t change API versioning frequently. Consumers need a stable versions, and so don&#8217;t version often</p>
 </li>
 <li>
 <p>In fact, frequent versioning is seen as chaotic, disorganised</p>
@@ -399,7 +423,7 @@
 <p>Breaking changes should only be considered when there is no other alternative (security/compliance/law) or it becomes uneconomical</p>
 </li>
 <li>
-<p>It is good practice to consider a predicatable versioning of APIs (e.g. new versions every 3 months)</p>
+<p>It is good practice to consider a predictable versioning of APIs (e.g. new versions every 3 months)</p>
 </li>
 </ul>
 </div>
@@ -410,7 +434,7 @@
 <ul>
 <li>
 <p>Follow <a href="https://semver.org/" target="_blank" rel="noopener">Semantic versioning</a> (semver) to ensure standardisation<br>
-The extent of changes to an API (or sofware for that matter) drives the versioning by assigning either unique unique version numbers in the form X.Y.Z.</p>
+The extent of changes to an API (or sofwatre for that matter) drives the versioning by assigning either unique version numbers in the form X.Y.Z.</p>
 </li>
 </ul>
 </div>
@@ -419,6 +443,17 @@ The extent of changes to an API (or sofware for that matter) drives the versioni
 <img src="_images/sem-versioning.png" alt="sem versioning" width="60%">
 </div>
 </div>
+<details>
+<summary class="title"><strong class="underline">Click to view text version</strong></summary>
+<div class="content">
+<div class="paragraph">
+<p>(X represent major version, Y minor verson and Z patch version)
+<strong>* Increment X: Major releases include incompatible API changes which will break consumers  (e.g. 1.1.0 to 2.0.0)
+</strong>* Increment Y: Minor changes or new features without impact on consumers (e.g. 1.0.0 to 1.1.0)
+<strong>*</strong> Increment Z: Bug fixes or patches which you makes backward compatible changes which don&#8217;t impact the consumers (e.g. 1.0.0 to 1.0.1)</p>
+</div>
+</div>
+</details>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -427,7 +462,7 @@ The extent of changes to an API (or sofware for that matter) drives the versioni
 </td>
 <td class="content">
 <div class="paragraph">
-<p><a href="https://semver.org/" class="bare">https://semver.org/</a> provides fantastic guidance on dos and dont of versioning and is highly recommended read.</p>
+<p><a href="https://semver.org/" class="bare">https://semver.org/</a> provides fantastic guidance on <em>dos and donts</em> of versioning and is a highly recommended read.</p>
 </div>
 </td>
 </tr>
@@ -518,26 +553,29 @@ Header: x-api-version v2</code></pre>
 <div class="sect3">
 <h4 id="_when_to_choose_what"><a class="anchor" href="#_when_to_choose_what"></a><a class="link" href="#_when_to_choose_what">3.4.2. When to choose what</a></h4>
 <div class="paragraph">
-<p>The answer is, of couse, <em>it depends</em> :)</p>
+<p>The answer is, of course, <em>it depends</em> :)</p>
+</div>
+<div class="paragraph">
+<p>Usually the popular approach is URL versioning, and that is what we will discuss in this pattern. Whichever method you opt for, a majority of this pattern will still helpful in thinking through impact on the stakeholders.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_measure_and_manage_adoption"><a class="anchor" href="#_measure_and_manage_adoption"></a><a class="link" href="#_measure_and_manage_adoption">3.5. Measure and manage adoption</a></h3>
 <div class="paragraph">
-<p>There will be a point when a API versions or perhaps the API itself will need to be sunset. It is important to plan for this from get-go.</p>
+<p>There will be a point when API versions or perhaps the API itself will need to be sunset. It is important to plan for this from the initial stages.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Track consumption of API versions to understand usage of APIs and versions. The API management platform should ba able to provide the necessary metrics to do this.</p>
+<p>Track consumption of API versions to understand usage of APIs and versions. The API management platform should be able to provide the necessary metrics to do this.</p>
 </li>
 <li>
-<p>Set clear predicatable guidelines on when consumers can expect new API versions.</p>
+<p>Set clear predictable guidelines on when consumers can expect new API versions.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>e.g. Patch versions every month; Minor or major versions every 3 monthss.</p>
+<p>e.g. Patch versions every month; Minor or major versions every 3 months.</p>
 </li>
 <li>
 <p>Publish these policies and guidelines on the developer portal so that consumers can manage their development cycles</p>
@@ -546,7 +584,7 @@ Header: x-api-version v2</code></pre>
 </div>
 </li>
 <li>
-<p>Notfy consumers about new API versions being available; and more importanly notify consumers about adopting newer versions, and sunsetting of older versions. You will need to define frequency of how often to notify consumers depending on your business needs, Note that manintaing multiple versions is a burden on providers in having to maintain older versions is reduced and hopfully completely removed.</p>
+<p>Notify consumers about new API versions being available; and more importantly notify consumers about adopting newer versions, and sunsetting of older versions. You will need to define frequency of how often to notify consumers depending on your business needs. Note that maintaining multiple versions is a burden on providers because of the quantum of effort neeeded to support older versions till they are completely removed.</p>
 </li>
 <li>
 <p>Release notes in the Developer Portal should clearly articulate changes in each version, along with examples and a way to try out.</p>
@@ -564,10 +602,10 @@ Header: x-api-version v2</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>As part of the API-First approach, the first step, of course, is to design the APIs. API Designer is a tool to design your APIs used by various stakeholders  to define the API specs. The API are defined for the existing catalogue service as well.</p>
+<p>As part of the API-First approach, the first step, of course, is to design the APIs. API Designer is a tool to design your APIs used by various stakeholders to define the API specs.</p>
 </li>
 <li>
-<p>Once the API design is complete, the API versions can now published  in a schema registry. <a href="https://access.redhat.com/documentation/en-us/red_hat_build_of_apicurio_registry" target="_blank" rel="noopener">Red Hat build of Apicurio Registry</a> is a datastore for sharing standard event schemas and API designs across event-driven and API architectures.</p>
+<p>Once the API design is complete, the API versions can be published  in a schema registry. <a href="https://access.redhat.com/documentation/en-us/red_hat_build_of_apicurio_registry" target="_blank" rel="noopener">Red Hat build of Apicurio Registry</a> is a datastore for sharing standard event schemas and API designs across event-driven and API architectures.</p>
 <div class="ulist">
 <ul>
 <li>
