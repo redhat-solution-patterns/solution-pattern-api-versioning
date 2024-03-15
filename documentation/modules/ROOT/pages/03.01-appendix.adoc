@@ -1,4 +1,4 @@
-= Solution Pattern: Manage and Secure APIs with an API First Approach
+= Solution Pattern: API Versioning
 :sectnums:
 :sectlinks:
 :doctype: book
