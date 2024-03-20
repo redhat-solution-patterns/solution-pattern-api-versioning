@@ -18,7 +18,7 @@ Solutions Patterns help you understand the art of the possible with Red Hat's po
 [#use-cases]
 == Use cases
 
-Here are a few usecases where API versioning is undertaken by organizations
+Here are a few usecases where API versioning is undertaken by organisations
 
 * New features that impact existing specifications
 * Changes in business models such as new channels of collaboration
@@ -48,7 +48,7 @@ Just like a https://en.wikipedia.org/wiki/M%C3%B6bius_strip[Mobius strip^] this 
 
 In the APIs world, change occurs with varying degrees of impact - ranging from “FYI Only” to “Need immediate action” or "Consumers need changes".  These can typically be broken down into *Impacting/Breaking Change* and *Non-impacting/Non-Breaking* change. 
 
-Changes in the API specification or the contract will also have far reaching impact on across teams, organizations, community, partners touching upon a number layers including *backend services*, *API management platform*, *API consumers*. Each of these will need to be managed so that the system as a whole doesn't break. 
+Changes in the API specification or the contract will also have far reaching impact on across teams, organisations, community, partners touching upon a number layers including *backend services*, *API management platform*, *API consumers*. Each of these will need to be managed so that the system as a whole doesn't break. 
 
 Some parameters to consider include
 

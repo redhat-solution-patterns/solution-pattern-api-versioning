@@ -168,7 +168,8 @@ In real life, there are a number ways this payload can be handled
 * payload may need to be posted to a number of other downstream systems.
 ====
 
-* As seen earlier, the OrderPlacement backend service has already been provisioned for you. You will now need to
+As seen earlier, the OrderPlacement backend service has already been provisioned for you. You will now update the enviornment variables.
+
 * The *ORDER_PLACEMENT_API* env variable of the OrderPlacement backend service has a placeholder which needs to be replaced.
 +
 image::order-placement-config-before.png[]
@@ -685,7 +686,13 @@ image::app-plan-200.png[]
 . Unpublish the older application plan by changing the *State* to hidden. 
 +
 image::hide-app-plan-100.png[]
+
+
+=== Advantages of this option:
+
 * This means that all new users will only be able to sign up to the newer plan; when version 1.x.x is being sunset, you can just delete all those applications and the plan itself
+* Another advantage of creating a new application plan is that when you unpublish it on the developer portal, you won't have any net new signups for the old version. But you can also provide an ELS option for some existing customers(if needed) without the risk of new people signing up to the API. 
+
 
 == Conclusion
 
@@ -696,4 +703,8 @@ Congratulations on completing this Solution Pattern. As a takeaway
 * Consider including Release Notes in your developer portal with access to OpenAPI Specs, trials and code samples
 * GitOps and ArgoCD are you friends to make this manageable and trackable
 
-To sum up, build *Intentional APIs*
+To sum up, build *Intentional APIs*. Be deliverate while creating APIs for internal or external stake holders. Being intentional across the API lifecycle from designing, developing, versioning and managing it, makes for easier adoption and higher adoption.
+
+
+*Explore more Solution Patterns https://redhat-solution-patterns.github.io/solution-patterns/patterns.html[here^]*
+
