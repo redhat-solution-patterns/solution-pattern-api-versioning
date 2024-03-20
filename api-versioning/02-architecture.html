@@ -245,7 +245,7 @@
 <p>As an <strong>API Provider</strong></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top" style="background-color: #E7F3F4;"><div class="content"><div class="paragraph">
-<p>As an <strong>API Service Developer</strong></p>
+<p>As a <strong>backend Developer of API services</strong></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top" style="background-color: #E7F3F4;"><div class="content"><div class="paragraph">
 <p>As an <strong>API Consumer</strong></p>
@@ -317,6 +317,10 @@
 <div class="ulist">
 <ul>
 <li>
+<p>Red Hat technologies</p>
+<div class="ulist">
+<ul>
+<li>
 <p><a href="https://developers.redhat.com/products/3scale/overview" target="_blank" rel="noopener">Red Hat 3scale API Management</a></p>
 </li>
 <li>
@@ -326,13 +330,23 @@
 <p><a href="https://developers.redhat.com/products/quarkus/overview" target="_blank" rel="noopener">Red Hat build of Quarkus</a></p>
 </li>
 <li>
+<p><a href="https://quay.io/" target="_blank" rel="noopener">Quay</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Other open source technologies</p>
+<div class="ulist">
+<ul>
+<li>
 <p><a href="https://studio.apicur.io/" target="_blank" rel="noopener">Apicurio API Designer</a></p>
 </li>
 <li>
 <p><a href="https://microcks.io/" target="_blank" rel="noopener">Microcks</a></p>
 </li>
-<li>
-<p><a href="https://quay.io/" target="_blank" rel="noopener">Quay</a></p>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -369,48 +383,7 @@
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_setting_the_stage"><a class="anchor" href="#_setting_the_stage"></a><a class="link" href="#_setting_the_stage">3.1. Setting the stage</a></h3>
-<div class="paragraph">
-<p>Let&#8217;s look at a quick refresher on 3scale API management and it&#8217;s various entities</p>
-</div>
-<details>
-<summary class="title"><strong class="underline">Click to text version of the below diagram</strong></summary>
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>An API in 3scale is referred to as a Product. Products can have one or many Backends.</p>
-</li>
-<li>
-<p>A Backend is a web service that 3scale will proxy requests to based on mapping rules defined by the Product.</p>
-</li>
-<li>
-<p>Application plans can be used to define usage rules and limits for your API.</p>
-</li>
-<li>
-<p>A developer signs up to an Application Plan of a  API Product; A a unique Application is associated a unique set of credentials for the API,</p>
-</li>
-<li>
-<p>Method defines the allowed interactions  - such as GET, POST or DELETE - with an API or a product</p>
-</li>
-<li>
-<p>Mapping rules define the metrics or methods that you want to report depending on the requests to your API.</p>
-</li>
-<li>
-<p>Metrics help you track of specific calls to an API</p>
-</li>
-</ul>
-</div>
-</div>
-</details>
-<div class="imageblock">
-<div class="content">
-<img src="_images/3scale-primer.png" alt="3scale primer">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_when_to_version"><a class="anchor" href="#_when_to_version"></a><a class="link" href="#_when_to_version">3.2. When to version</a></h3>
+<h3 id="_when_to_version"><a class="anchor" href="#_when_to_version"></a><a class="link" href="#_when_to_version">3.1. When to version</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -429,7 +402,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_how_to_version"><a class="anchor" href="#_how_to_version"></a><a class="link" href="#_how_to_version">3.3. How to version</a></h3>
+<h3 id="_how_to_version"><a class="anchor" href="#_how_to_version"></a><a class="link" href="#_how_to_version">3.2. How to version</a></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -470,7 +443,7 @@ The extent of changes to an API (or sofwatre for that matter) drives the version
 </div>
 </div>
 <div class="sect2">
-<h3 id="_different_api_versioning_strategies"><a class="anchor" href="#_different_api_versioning_strategies"></a><a class="link" href="#_different_api_versioning_strategies">3.4. Different API Versioning Strategies</a></h3>
+<h3 id="_different_api_versioning_strategies"><a class="anchor" href="#_different_api_versioning_strategies"></a><a class="link" href="#_different_api_versioning_strategies">3.3. Different API Versioning Strategies</a></h3>
 <div class="paragraph">
 <p>Here are some common types of API versioning:<br>
 Note: These strategies apply when a new API version is applied to the same API Product to handle different versions</p>
@@ -525,14 +498,14 @@ Header: x-api-version v2</code></pre>
 </td>
 <td class="content">
 <div class="paragraph">
-<p><code>URL Versioning</code> is the most popular API versioning strategy.</p>
+<p><code>URL Versioning</code> is the most popular API versioning strategy partly due to it being the simplest to use.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_a_different_approach_to_api_versioning"><a class="anchor" href="#_a_different_approach_to_api_versioning"></a><a class="link" href="#_a_different_approach_to_api_versioning">3.4.1. A different approach to API versioning</a></h4>
+<h4 id="_a_different_approach_to_api_versioning"><a class="anchor" href="#_a_different_approach_to_api_versioning"></a><a class="link" href="#_a_different_approach_to_api_versioning">3.3.1. A different approach to API versioning</a></h4>
 <div class="paragraph">
 <p>An alternate way to implement API versioning is to create a completely new API product for a new API version. Sometimes this could be the right way to go. With this approach - especially for breaking changes</p>
 </div>
@@ -551,27 +524,27 @@ Header: x-api-version v2</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_when_to_choose_what"><a class="anchor" href="#_when_to_choose_what"></a><a class="link" href="#_when_to_choose_what">3.4.2. When to choose what</a></h4>
+<h4 id="_when_to_choose_what"><a class="anchor" href="#_when_to_choose_what"></a><a class="link" href="#_when_to_choose_what">3.3.2. When to choose what</a></h4>
 <div class="paragraph">
 <p>The answer is, of course, <em>it depends</em> :)</p>
 </div>
 <div class="paragraph">
-<p>Usually the popular approach is URL versioning, and that is what we will discuss in this pattern. Whichever method you opt for, a majority of this pattern will still helpful in thinking through impact on the stakeholders.</p>
+<p>Usually the popular approach is URL versioning, and that is what we will discuss in this pattern. Whichever method you opt for, a majority of this pattern will still be helpful in thinking through impact on the stakeholders.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_measure_and_manage_adoption"><a class="anchor" href="#_measure_and_manage_adoption"></a><a class="link" href="#_measure_and_manage_adoption">3.5. Measure and manage adoption</a></h3>
+<h3 id="_measure_and_manage_adoption"><a class="anchor" href="#_measure_and_manage_adoption"></a><a class="link" href="#_measure_and_manage_adoption">3.4. Measure and manage adoption</a></h3>
 <div class="paragraph">
 <p>There will be a point when API versions or perhaps the API itself will need to be sunset. It is important to plan for this from the initial stages.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Track consumption of API versions to understand usage of APIs and versions. The API management platform should be able to provide the necessary metrics to do this.</p>
+<p><strong>Track consumption of API versions</strong> to understand usage of APIs and versions. The API management platform should be able to provide the necessary metrics to do this.</p>
 </li>
 <li>
-<p>Set clear predictable guidelines on when consumers can expect new API versions.</p>
+<p>Set clear <strong>predictable timelines</strong> on when consumers can expect new API versions.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -584,10 +557,27 @@ Header: x-api-version v2</code></pre>
 </div>
 </li>
 <li>
-<p>Notify consumers about new API versions being available; and more importantly notify consumers about adopting newer versions, and sunsetting of older versions. You will need to define frequency of how often to notify consumers depending on your business needs. Note that maintaining multiple versions is a burden on providers because of the quantum of effort neeeded to support older versions till they are completely removed.</p>
+<p><strong>Notify consumers</strong> about new API versions being available; and more importantly notify consumers about adopting newer versions, and sunsetting of older versions.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>You will need to define frequency of how often to notify consumers depending on your business needs.</p>
 </li>
 <li>
-<p>Release notes in the Developer Portal should clearly articulate changes in each version, along with examples and a way to try out.</p>
+<p>Note that maintaining multiple versions is a burden on providers because of the quantum of effort needed to support older versions till they are completely removed.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Release notes in the Developer Portal</strong> should clearly articulate changes in each version, along with examples and a way to try out.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This should include a <strong>Changelog</strong> of all updates and versions the API goes through.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -609,7 +599,7 @@ Header: x-api-version v2</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>You can upload new artifacts, new versions,  view the metadata, download the specs, view documentation and view the content as well.</p>
+<p>You can upload new artefacts, new versions,  view the metadata, download the specs, view documentation and view the content as well.</p>
 </li>
 <li>
 <p>Through Content rules one can validate new versions of the APIs against the existing specs to ensure validity and backward compatibility.</p>
@@ -618,7 +608,7 @@ Header: x-api-version v2</code></pre>
 </div>
 </li>
 <li>
-<p>Microcks can be used to mock the APIs so that the various development teams can to develop their pieces of code even before the APIs are completely implemented</p>
+<p><a href="https://microcks.io" target="_blank" rel="noopener">Microcks</a> can be used to mock the APIs so that the various development teams can to develop their pieces of code even before the APIs are completely implemented</p>
 </li>
 </ul>
 </div>
@@ -628,6 +618,44 @@ Header: x-api-version v2</code></pre>
 </div>
 <div class="sect2">
 <h3 id="3scale"><a class="anchor" href="#3scale"></a><a class="link" href="#3scale">4.2. Red Hat 3scale API Management</a></h3>
+<div class="paragraph">
+<p>Let&#8217;s look at a quick refresher on 3scale API management and it&#8217;s various entities</p>
+</div>
+<details>
+<summary class="title"><strong class="underline">Click to text version of the below diagram</strong></summary>
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>An API in 3scale is referred to as a Product. Products can have one or many Backends.</p>
+</li>
+<li>
+<p>A Backend is a web service that 3scale will proxy requests to based on mapping rules defined by the Product.</p>
+</li>
+<li>
+<p>Application plans can be used to define usage rules and limits for your API.</p>
+</li>
+<li>
+<p>A developer signs up to an Application Plan of a  API Product; A a unique Application is associated a unique set of credentials for the API,</p>
+</li>
+<li>
+<p>Method defines the allowed interactions  - such as GET, POST or DELETE - with an API or a product</p>
+</li>
+<li>
+<p>Mapping rules define the metrics or methods that you want to report depending on the requests to your API.</p>
+</li>
+<li>
+<p>Metrics help you track of specific calls to an API</p>
+</li>
+</ul>
+</div>
+</div>
+</details>
+<div class="imageblock">
+<div class="content">
+<img src="_images/3scale-primer.png" alt="3scale primer">
+</div>
+</div>
 <div class="paragraph">
 <p>We use the managed <strong>Red Hat 3scale API Management</strong> platform here to publish, manage and secure the backend APIs.</p>
 </div>

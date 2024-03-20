@@ -559,11 +559,11 @@ info:
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>As seen earlier, the OrderPlacement backend service has already been provisioned for you. You will now update the enviornment variables.</p>
+</div>
 <div class="ulist">
 <ul>
-<li>
-<p>As seen earlier, the OrderPlacement backend service has already been provisioned for you. You will now need to</p>
-</li>
 <li>
 <p>The <strong>ORDER_PLACEMENT_API</strong> env variable of the OrderPlacement backend service has a placeholder which needs to be replaced.</p>
 <div class="imageblock">
@@ -1664,15 +1664,21 @@ Please refer to the Developer Portal for details of version 2.0.0</code></pre>
 <img src="_images/hide-app-plan-100.png" alt="hide app plan 100">
 </div>
 </div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_advantages_of_this_option"><a class="anchor" href="#_advantages_of_this_option"></a><a class="link" href="#_advantages_of_this_option">8.3. Advantages of this option:</a></h3>
 <div class="ulist">
 <ul>
 <li>
 <p>This means that all new users will only be able to sign up to the newer plan; when version 1.x.x is being sunset, you can just delete all those applications and the plan itself</p>
 </li>
-</ul>
-</div>
+<li>
+<p>Another advantage of creating a new application plan is that when you unpublish it on the developer portal, you won&#8217;t have any net new signups for the old version. But you can also provide an ELS option for some existing customers(if needed) without the risk of new people signing up to the API.</p>
 </li>
-</ol>
+</ul>
 </div>
 </div>
 </div>
@@ -1700,7 +1706,10 @@ Please refer to the Developer Portal for details of version 2.0.0</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>To sum up, build <strong>Intentional APIs</strong></p>
+<p>To sum up, build <strong>Intentional APIs</strong>. Be deliverate while creating APIs for internal or external stake holders. Being intentional across the API lifecycle from designing, developing, versioning and managing it, makes for easier adoption and higher adoption.</p>
+</div>
+<div class="paragraph">
+<p><strong>Explore more Solution Patterns <a href="https://redhat-solution-patterns.github.io/solution-patterns/patterns.html" target="_blank" rel="noopener">here</a></strong></p>
 </div>
 </div>
 </div>
