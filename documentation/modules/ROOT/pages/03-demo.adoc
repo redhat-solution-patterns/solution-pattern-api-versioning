@@ -66,7 +66,7 @@ oc login --token=<token> --server=<server>
 [.console-input]
 [source,shell script]
 ----
-git clone https://github.com/rh-solution-pattern-api-versioning/globex-ansible
+git clone https://github.com/rh-soln-pattern-api-versioning/globex-ansible
 ----
 ******
 
